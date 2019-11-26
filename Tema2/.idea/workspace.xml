@@ -15,9 +15,13 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1U6kqVYVRbJROus9WMh9AaRZGAV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/FileIO.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -38,7 +42,7 @@
     <configuration name="Test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="tema2" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\workspace\\tema2\\input.txt&quot; &quot;C:\\workspace\\tema2\\output.txt&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\workspace\\tema2\\proiect\\Tema2\\input.txt&quot; &quot;C:\\workspace\\tema2\\proiect\\Tema2\\output.txt&quot;" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -56,5 +60,18 @@
       <updated>1574684622575</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

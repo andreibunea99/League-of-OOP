@@ -14,9 +14,9 @@ public class InputReader {
     }
 
     public GameInput load() {
-        int N;
-        int M;
-        char[][] terrain = new char[N][M];
+        int N = 0;
+        int M = 0;
+        char[][] terrain = new char[1][1];
         int numberOfPlayers = 0;
         int numberOfRounds = 0;
         List<Integer> xCoordinates = new ArrayList<Integer>();
@@ -30,12 +30,14 @@ public class InputReader {
             N = fs.nextInt();
             M = fs.nextInt();
 
+            terrain = new char[N][M];
+
             for (int i = 0; i < N; ++i) {
                 String s = fs.nextWord();
                 //System.out.println(s.length());
                 for (int j = 0; j < M; j++) {
-                    System.out.println(N + " " + M);
-                    System.out.println(j + " " + s.charAt(j) + " " + terrain.length);
+//                    System.out.println(N + " " + M);
+//                    System.out.println(j + " " + s.charAt(j) + " " + terrain.length);
                     terrain[i][j] = s.charAt(j);
                 }
             }
@@ -53,9 +55,13 @@ public class InputReader {
 
             for (int i = 0 ; i < numberOfRounds; i++) {
                 String s = fs.nextWord();
+                List<Character> list = new ArrayList<>();
+                //System.out.println(s.charAt(1));
                 for (int j = 0; j < numberOfPlayers; j++) {
-                    playerMoves.get(i).add(s.charAt(j));
+//                    System.out.println(playerMoves.get(0).size());
+                    list.add(s.charAt(j));
                 }
+                playerMoves.add(list);
             }
 
             fs.close();

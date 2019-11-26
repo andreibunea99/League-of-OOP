@@ -1,5 +1,7 @@
 package reading;
 
+import player.HeroType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,22 +11,77 @@ public class GameInput {
     private int M;
     private int P;
     private int R;
-    char[][] map = new char[N][M];
-    List<Character> characters = new ArrayList<>();
-    List<Integer> ox = new ArrayList<>();
-    List<Integer> oy = new ArrayList<>();
-    List<List<Character>> moves = new ArrayList<>();
+    private char[][] map = new char[N][M];
+    private List<HeroType> characters = new ArrayList<>();
+    private List<Integer> ox = new ArrayList<>();
+    private List<Integer> oy = new ArrayList<>();
+    private List<List<Character>> moves = new ArrayList<>();
+
+
     public GameInput(int N_map, int M_map, char[][] terrain, int numberOfPlayers, List<Character> playerTypes, List<Integer> xCoordinates,
-                         List <Integer> yCoordinates, int numberOfRounds, List<List<Character>> playerMoves) {
+                     List <Integer> yCoordinates, int numberOfRounds, List<List<Character>> playerMoves) {
         N = N_map;
         M = M_map;
         P = numberOfPlayers;
         R = numberOfRounds;
         map = terrain;
-        characters = playerTypes;
         ox = xCoordinates;
         oy = yCoordinates;
         moves = playerMoves;
+        for (int i = 0; i < playerTypes.size(); i++) {
+            if (playerTypes.get(i) == 'K') {
+                characters.add(HeroType.Knight);
+            }
+            if (playerTypes.get(i) == 'R') {
+                characters.add(HeroType.Rogue);
+            }
+            if (playerTypes.get(i) == 'K') {
+                characters.add(HeroType.Pyromancer);
+            }
+            if (playerTypes.get(i) == 'W') {
+                characters.add(HeroType.Wizard);
+            }
+        }
+    }
+
+
+    public List<HeroType> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<HeroType> characters) {
+        this.characters = characters;
+    }
+
+    public List<Integer> getOx() {
+        return ox;
+    }
+
+    public void setOx(List<Integer> ox) {
+        this.ox = ox;
+    }
+
+    public List<Integer> getOy() {
+        return oy;
+    }
+
+    public void setOy(List<Integer> oy) {
+        this.oy = oy;
+    }
+
+    public List<List<Character>> getMoves() {
+        return moves;
+    }
+
+    public void setMoves(List<List<Character>> moves) {
+        this.moves = moves;
+    }
+    public char[][] getMap() {
+        return map;
+    }
+
+    public void setMap(char[][] map) {
+        this.map = map;
     }
 
     public int getN() {
