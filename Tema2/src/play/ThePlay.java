@@ -1,7 +1,7 @@
 package play;
 
 import main.Map;
-import player.Hero;
+import player.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,9 @@ public class ThePlay {
     }
 
     public void round(List<List<Character>> moves) {
+        for (int i = 0; i < heroes.size(); i++) {
+            heroes.get(i).checkWound();
+        }
         for (int i = 0; i < moves.get(currentRound).size(); i++) {
             if (moves.get(currentRound).get(i) == 'U') {
                 heroes.get(i).moveUp();
@@ -33,6 +36,11 @@ public class ThePlay {
                 heroes.get(i).moveDown();
             }
         }
+        Pyromancer pyromancer = new Pyromancer(0, 0, HeroType.Pyromancer);
+        Knight knight = new Knight(0, 0, HeroType.Knight);
+        pyromancer.visitFireblast(knight, map);
+        pyromancer.visitIgnite(knight, map);
+        System.out.println(knight.getHealth());
     }
 
 }
