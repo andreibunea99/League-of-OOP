@@ -1,5 +1,7 @@
 package player;
 
+import main.Map;
+
 public abstract class Hero {
     private int positionX;
     private int positionY;
@@ -12,6 +14,8 @@ public abstract class Hero {
     private int initialHealth;
     private boolean standStill;
     private int lastDamage;
+    private boolean paralyzed;
+    private int timeOfParalyze;
     private HeroType type;
 
     public Hero(int positionX, int getPositionY, HeroType type) {
@@ -45,31 +49,25 @@ public abstract class Hero {
 
     public void setStandStill(boolean standStill) {
         this.standStill = standStill;
-    }
-
-    public int getHurt() {
-        return hurt;
+        setTimeOfHurt(0);
+        setHurt(0);
     }
 
     public void setHurt(int hurt) {
         this.hurt = hurt;
     }
 
-    public int getTimeOfHurt() {
-        return timeOfHurt;
-    }
-
     public void setTimeOfHurt(int timeOfHurt) {
         this.timeOfHurt = timeOfHurt;
+        paralyzed = false;
+    }
+
+    public void setTimeOfParalyze(int timeOfParalyze) {
+        this.timeOfParalyze = timeOfParalyze;
     }
 
     public void setHealthPerLevel(int healthPerLevel) {
         this.healthPerLevel = healthPerLevel;
-    }
-
-    public void addExperience(int x) {
-        experience += x;
-        level = (experience - 250) % 50;
     }
 
     public void addHealth(int x) {
@@ -80,6 +78,7 @@ public abstract class Hero {
     }
 
     public void checkWound() {
+        timeOfParalyze--;
         if (hurt != 0) {
             health -= hurt;
             timeOfHurt--;
@@ -87,19 +86,17 @@ public abstract class Hero {
         if (timeOfHurt == 0) {
             hurt = 0;
         }
-        if (experience > 250 + level * 50) {
-            level++;
-            initialHealth += healthPerLevel;
-            health = initialHealth;
+        if (timeOfParalyze == 0) {
+            paralyzed = false;
         }
     }
 
     public void moveUp() {
-        positionX++;
+        positionX--;
     }
 
     public void moveDown() {
-        positionX--;
+        positionX++;
     }
 
     public void moveLeft() {
@@ -114,16 +111,8 @@ public abstract class Hero {
         return positionX;
     }
 
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
-
     public int getPositionY() {
         return positionY;
-    }
-
-    public void setPositionY(int getPositionY) {
-        this.positionY = getPositionY;
     }
 
     public int getHealth() {
@@ -138,10 +127,6 @@ public abstract class Hero {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public int getExperience() {
         return experience;
     }
@@ -154,7 +139,43 @@ public abstract class Hero {
         return type;
     }
 
-    public void setType(HeroType type) {
-        this.type = type;
+    public void accept(Hero hero, Map map) {
+
+    }
+
+    public boolean isParalyzed() {
+        return paralyzed;
+    }
+
+    public void setParalyzed(boolean paralyzed) {
+        this.paralyzed = paralyzed;
+    }
+
+    protected abstract void basicAttack(Pyromancer pyromancer, Map map);
+
+    protected abstract void basicAttack(Knight knight, Map map);
+
+    protected abstract void basicAttack(Rogue rogue, Map map);
+
+    protected abstract void basicAttack(Wizard wizard, Map map);
+
+    protected abstract void specialAttack(Pyromancer pyromancer, Map map);
+
+    protected abstract void specialAttack(Knight knight, Map map);
+
+    protected abstract void specialAttack(Rogue rogue, Map map);
+
+    protected abstract void specialAttack(Wizard wizard, Map map);
+
+    public void finalRound() {
+        if (health <= 0) {
+            return;
+        }
+        int levelUp = (experience - 250) / 50 + 1;
+        if (levelUp > level) {
+            level = levelUp;
+            initialHealth += levelUp*healthPerLevel;
+            health = initialHealth;
+        }
     }
 }

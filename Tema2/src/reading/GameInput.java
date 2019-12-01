@@ -35,7 +35,7 @@ public class GameInput {
             if (playerTypes.get(i) == 'R') {
                 characters.add(HeroType.Rogue);
             }
-            if (playerTypes.get(i) == 'K') {
+            if (playerTypes.get(i) == 'P') {
                 characters.add(HeroType.Pyromancer);
             }
             if (playerTypes.get(i) == 'W') {

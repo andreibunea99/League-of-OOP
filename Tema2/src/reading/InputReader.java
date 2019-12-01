@@ -34,10 +34,7 @@ public class InputReader {
 
             for (int i = 0; i < N; ++i) {
                 String s = fs.nextWord();
-                //System.out.println(s.length());
                 for (int j = 0; j < M; j++) {
-//                    System.out.println(N + " " + M);
-//                    System.out.println(j + " " + s.charAt(j) + " " + terrain.length);
                     terrain[i][j] = s.charAt(j);
                 }
             }
@@ -56,9 +53,7 @@ public class InputReader {
             for (int i = 0 ; i < numberOfRounds; i++) {
                 String s = fs.nextWord();
                 List<Character> list = new ArrayList<>();
-                //System.out.println(s.charAt(1));
                 for (int j = 0; j < numberOfPlayers; j++) {
-//                    System.out.println(playerMoves.get(0).size());
                     list.add(s.charAt(j));
                 }
                 playerMoves.add(list);
