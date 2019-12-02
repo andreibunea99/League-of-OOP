@@ -2,113 +2,156 @@ package player;
 
 import main.Map;
 
-import static constants.Constants.*;
+import static constants.Constants.RBONUS;
+import static constants.Constants.RHEALTH;
+import static constants.Constants.RKBASIC;
+import static constants.Constants.RKSPECIAL;
+import static constants.Constants.RLEVEL;
+import static constants.Constants.RPBASIC;
+import static constants.Constants.RPSPECIAL;
+import static constants.Constants.RRBASIC;
+import static constants.Constants.RRSPECIAL;
+import static constants.Constants.RWBASIC;
+import static constants.Constants.RWSPECIAL;
+import static constants.Constants.R_BASIC_DAMAGE;
+import static constants.Constants.R_BASIC_LEVEL;
+import static constants.Constants.R_LAND_ROUNDS;
+import static constants.Constants.R_LAND_ROUNDS_HURT;
+import static constants.Constants.R_LUCKY_STRIKE;
+import static constants.Constants.R_LUCKY_STRIKE_RESET;
+import static constants.Constants.R_NO_LAND_ROUNDS;
+import static constants.Constants.R_NO_LAND_ROUNDS_HURT;
+import static constants.Constants.R_ROUND_DAMAGE;
+import static constants.Constants.R_ROUND_LEVEL;
+import static constants.Constants.XP_LIMIT;
+import static constants.Constants.XP_MULTIPLIER;
 
 public class Rogue extends Hero {
 
     private int chance;
 
-    public Rogue(int positionX, int getPositionY, HeroType type) {
+    public Rogue(final int positionX, final int getPositionY, final HeroType type) {
         super(positionX, getPositionY, type);
-        setInitialHealth(600);
-        setHealthPerLevel(40);
+        setInitialHealth(RHEALTH);
+        setHealthPerLevel(RLEVEL);
         chance = 0;
     }
 
-    public void basicAttack(Pyromancer pyromancer, Map map) {
+    /**
+     * @param pyromancer
+     * @param map
+     */
+    public void basicAttack(final Pyromancer pyromancer, final Map map) {
         float terrainBonus = 1f;
         chance++;
         if (map.getParcel(getPositionX(), getPositionY()) == 'W') {
             terrainBonus = RBONUS;
         } else if (chance == 1) {
-            chance = -2;
+            chance = R_LUCKY_STRIKE_RESET;
         }
-        float damage = 200 + 20 * getLevel();
+        float damage = R_BASIC_DAMAGE + R_BASIC_LEVEL * getLevel();
         if (chance == 1) {
-            damage *= 1.5f;
+            damage *= R_LUCKY_STRIKE;
         }
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
         damage *= RPBASIC;
         pyromancer.addHealth(-Math.round(damage));
-//        }
     }
 
-    public void specialAttack(Pyromancer pyromancer, Map map) {
+    /**
+     * @param pyromancer
+     * @param map
+     */
+    public void specialAttack(final Pyromancer pyromancer, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'W') {
             terrainBonus = RBONUS;
         }
-        float damage = 40 + 10 * getLevel();
+        float damage = R_ROUND_DAMAGE + R_ROUND_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= RPSPECIAL;
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - pyromancer.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - pyromancer.getLevel()) * XP_MULTIPLIER));
         }
         pyromancer.setHurt(Math.round(damage));
-        pyromancer.setTimeOfHurt(3);
-        pyromancer.setTimeOfParalyze(4);
+        pyromancer.setTimeOfHurt(R_NO_LAND_ROUNDS_HURT);
+        pyromancer.setTimeOfParalyze(R_NO_LAND_ROUNDS);
         if (terrainBonus == RBONUS) {
-            pyromancer.setTimeOfHurt(6);
-            pyromancer.setTimeOfParalyze(7);
+            pyromancer.setTimeOfHurt(R_LAND_ROUNDS_HURT);
+            pyromancer.setTimeOfParalyze(R_LAND_ROUNDS);
         }
         pyromancer.setParalyzed(true);
     }
 
-    public void basicAttack(Knight knight, Map map) {
+    /**
+     * @param knight
+     * @param map
+     */
+    public void basicAttack(final Knight knight, final Map map) {
         float terrainBonus = 1f;
         chance++;
         if (map.getParcel(getPositionX(), getPositionY()) == 'W') {
             terrainBonus = RBONUS;
         } else if (chance == 1) {
-            chance = -2;
+            chance = R_LUCKY_STRIKE_RESET;
         }
-        float damage = 200 + 20 * getLevel();
+        float damage = R_BASIC_DAMAGE + R_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
         if (chance == 1) {
-            damage *= 1.5f;
+            damage *= R_LUCKY_STRIKE;
         }
         setLastDamage(Math.round(damage));
         damage *= RKBASIC;
         knight.addHealth(-Math.round(damage));
     }
 
-    public void specialAttack(Knight knight, Map map) {
+    /**
+     * @param knight
+     * @param map
+     */
+    public void specialAttack(final Knight knight, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'W') {
             terrainBonus = RBONUS;
         }
-        float damage = 40 + 10 * getLevel();
+        float damage = R_ROUND_DAMAGE + R_ROUND_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= RKSPECIAL;
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - knight.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - knight.getLevel()) * XP_MULTIPLIER));
         }
         knight.setHurt(Math.round(damage));
-        knight.setTimeOfHurt(3);
-        knight.setTimeOfParalyze(4);
+        knight.setTimeOfHurt(R_NO_LAND_ROUNDS_HURT);
+        knight.setTimeOfParalyze(R_NO_LAND_ROUNDS);
         if (terrainBonus == RBONUS) {
-            knight.setTimeOfHurt(6);
-            knight.setTimeOfParalyze(7);
+            knight.setTimeOfHurt(R_LAND_ROUNDS_HURT);
+            knight.setTimeOfParalyze(R_LAND_ROUNDS);
         }
         knight.setParalyzed(true);
     }
 
-    public void basicAttack(Wizard wizard, Map map) {
+    /**
+     * @param wizard
+     * @param map
+     */
+    public void basicAttack(final Wizard wizard, final Map map) {
         float terrainBonus = 1f;
         chance++;
         if (map.getParcel(getPositionX(), getPositionY()) == 'W') {
             terrainBonus = RBONUS;
         } else if (chance == 1) {
-            chance = -2;
+            chance = R_LUCKY_STRIKE_RESET;
         }
-        float damage = 200 + 20 * getLevel();
+        float damage = R_BASIC_DAMAGE + R_BASIC_LEVEL * getLevel();
         if (chance == 1) {
-            damage *= 1.5f;
+            damage *= R_LUCKY_STRIKE;
         }
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
@@ -116,40 +159,49 @@ public class Rogue extends Hero {
         wizard.addHealth(-Math.round(damage));
     }
 
-    public void specialAttack(Wizard wizard, Map map) {
+    /**
+     * @param wizard
+     * @param map
+     */
+    public void specialAttack(final Wizard wizard, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'W') {
             terrainBonus = RBONUS;
         }
-        float damage = 40 + 10 * getLevel();
+        float damage = R_ROUND_DAMAGE + R_ROUND_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= RWSPECIAL;
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - wizard.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - wizard.getLevel()) * XP_MULTIPLIER));
         }
         wizard.setHurt(Math.round(damage));
-        wizard.setTimeOfHurt(3);
-        wizard.setTimeOfParalyze(4);
+        wizard.setTimeOfHurt(R_NO_LAND_ROUNDS_HURT);
+        wizard.setTimeOfParalyze(R_NO_LAND_ROUNDS);
         if (terrainBonus == RBONUS) {
-            wizard.setTimeOfHurt(6);
-            wizard.setTimeOfParalyze(7);
+            wizard.setTimeOfHurt(R_LAND_ROUNDS_HURT);
+            wizard.setTimeOfParalyze(R_LAND_ROUNDS);
         }
         wizard.setParalyzed(true);
     }
 
-    public void basicAttack(Rogue rogue, Map map) {
+    /**
+     * @param rogue
+     * @param map
+     */
+    public void basicAttack(final Rogue rogue, final Map map) {
         float terrainBonus = 1f;
         chance++;
         if (map.getParcel(getPositionX(), getPositionY()) == 'W') {
             terrainBonus = RBONUS;
         } else if (chance == 1) {
-            chance = -2;
+            chance = R_LUCKY_STRIKE_RESET;
         }
-        float damage = 200 + 20 * getLevel();
+        float damage = R_BASIC_DAMAGE + R_BASIC_LEVEL * getLevel();
         if (chance == 1) {
-            damage *= 1.5f;
+            damage *= R_LUCKY_STRIKE;
         }
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
@@ -158,30 +210,39 @@ public class Rogue extends Hero {
 //        }
     }
 
-    public void specialAttack(Rogue rogue, Map map) {
+    /**
+     * @param rogue
+     * @param map
+     */
+    public void specialAttack(final Rogue rogue, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'W') {
             terrainBonus = RBONUS;
         }
-        float damage = 40 + 10 * getLevel();
+        float damage = R_ROUND_DAMAGE + R_ROUND_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= RRSPECIAL;
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - rogue.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - rogue.getLevel()) * XP_MULTIPLIER));
         }
         rogue.setHurt(Math.round(damage));
-        rogue.setTimeOfHurt(3);
-        rogue.setTimeOfParalyze(4);
+        rogue.setTimeOfHurt(R_NO_LAND_ROUNDS_HURT);
+        rogue.setTimeOfParalyze(R_NO_LAND_ROUNDS);
         if (terrainBonus == RBONUS) {
-            rogue.setTimeOfHurt(6);
-            rogue.setTimeOfParalyze(7);
+            rogue.setTimeOfHurt(R_LAND_ROUNDS_HURT);
+            rogue.setTimeOfParalyze(R_LAND_ROUNDS);
         }
         rogue.setParalyzed(true);
     }
 
-    public void accept(Hero hero, Map map) {
+    /**
+     * @param hero
+     * @param map
+     */
+    public void accept(final Hero hero, final Map map) {
         hero.basicAttack(this, map);
         hero.specialAttack(this, map);
     }

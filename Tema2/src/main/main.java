@@ -1,8 +1,12 @@
 package main;
 
-import fileio.FileSystem;
 import play.ThePlay;
-import player.*;
+import player.Hero;
+import player.HeroType;
+import player.Knight;
+import player.Rogue;
+import player.Pyromancer;
+import player.Wizard;
 import reading.GameInput;
 import reading.InputReader;
 
@@ -21,21 +25,25 @@ public final class Main {
         List<Hero> heroes = new ArrayList<>();
         for (int i = 0; i < gameInput.getP(); i++) {
             if (gameInput.getCharacters().get(i) == HeroType.Knight) {
-                Knight hero = new Knight(gameInput.getOx().get(i), gameInput.getOy().get(i), gameInput.getCharacters().get(i));
+                Knight hero = new Knight(gameInput.getOx().get(i), gameInput.getOy().get(i),
+                        gameInput.getCharacters().get(i));
                 heroes.add(hero);
             } else if (gameInput.getCharacters().get(i) == HeroType.Rogue) {
-                Rogue hero = new Rogue(gameInput.getOx().get(i), gameInput.getOy().get(i), gameInput.getCharacters().get(i));
+                Rogue hero = new Rogue(gameInput.getOx().get(i), gameInput.getOy().get(i),
+                        gameInput.getCharacters().get(i));
                 heroes.add(hero);
             } else if (gameInput.getCharacters().get(i) == HeroType.Pyromancer) {
-                Pyromancer hero = new Pyromancer(gameInput.getOx().get(i), gameInput.getOy().get(i), gameInput.getCharacters().get(i));
+                Pyromancer hero = new Pyromancer(gameInput.getOx().get(i), gameInput.getOy().get(i),
+                        gameInput.getCharacters().get(i));
                 heroes.add(hero);
             } else {
-                Wizard hero = new Wizard(gameInput.getOx().get(i), gameInput.getOy().get(i), gameInput.getCharacters().get(i));
+                Wizard hero = new Wizard(gameInput.getOx().get(i), gameInput.getOy().get(i),
+                        gameInput.getCharacters().get(i));
                 heroes.add(hero);
             }
         }
         ThePlay game = new ThePlay(gameInput.getP(), gameInput.getR(), map);
-        for (int i = 0; i < gameInput.getR(); i ++) {
+        for (int i = 0; i < gameInput.getR(); i++) {
             game.round(gameInput.getMoves(), heroes);
         }
         FileWriter fileWriter = new FileWriter(args[1]);
@@ -50,6 +58,10 @@ public final class Main {
                     printWriter.print("R ");
                 } else {
                     printWriter.print("W ");
+                }
+                if (i == heroes.size() - 1) {
+                    printWriter.print("dead");
+                    continue;
                 }
                 printWriter.println("dead");
                 continue;

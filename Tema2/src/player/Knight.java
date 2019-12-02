@@ -2,28 +2,51 @@ package player;
 
 import main.Map;
 
-import static constants.Constants.*;
+import static constants.Constants.HUNDREAD;
+import static constants.Constants.KBONUS;
+import static constants.Constants.KHEALTH;
+import static constants.Constants.KKSPECIAL;
+import static constants.Constants.KLEVEL;
+import static constants.Constants.KPBASIC;
+import static constants.Constants.KPSPECIAL;
+import static constants.Constants.KRBASIC;
+import static constants.Constants.KRSPECIAL;
+import static constants.Constants.KWBASIC;
+import static constants.Constants.KWSPECIAL;
+import static constants.Constants.K_BASIC_DAMAGE;
+import static constants.Constants.K_BASIC_LEVEL;
+import static constants.Constants.K_HEALTH_LIMIT;
+import static constants.Constants.K_HEALTH_PERCENT;
+import static constants.Constants.K_SPECIAL_DAMAGE;
+import static constants.Constants.K_SPECIAL_LEVEL;
+import static constants.Constants.XP_LIMIT;
+import static constants.Constants.XP_MULTIPLIER;
 
 public class Knight extends Hero {
 
-    public Knight(int positionX, int getPositionY, HeroType type) {
+    public Knight(final int positionX, final int getPositionY, final HeroType type) {
         super(positionX, getPositionY, type);
-        setInitialHealth(900);
-        setHealthPerLevel(80);
+        setInitialHealth(KHEALTH);
+        setHealthPerLevel(KLEVEL);
     }
 
-    public void basicAttack(Pyromancer pyromancer, Map map) {
+    /**
+     * @param pyromancer
+     * @param map
+     */
+    public void basicAttack(final Pyromancer pyromancer, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
-        float hpLimit = Math.min(40, 20*getInitialHealth() + getLevel());
-        hpLimit = hpLimit / 100;
+        float hpLimit = Math.min(K_HEALTH_LIMIT, K_HEALTH_PERCENT * getInitialHealth()
+                + getLevel());
+        hpLimit = hpLimit / HUNDREAD;
         if (Math.round(hpLimit) >= pyromancer.getHealth()) {
             setLastDamage(Math.round(pyromancer.getHealth()));
             pyromancer.setHealth(0);
         } else {
-            float damage = 200 + 30 * getLevel();
+            float damage = K_BASIC_DAMAGE + K_BASIC_LEVEL * getLevel();
             damage *= terrainBonus;
             setLastDamage(Math.round(damage));
             damage *= KPBASIC;
@@ -31,34 +54,44 @@ public class Knight extends Hero {
         }
     }
 
-    public void specialAttack(Pyromancer pyromancer, Map map) {
+    /**
+     * @param pyromancer
+     * @param map
+     */
+    public void specialAttack(final Pyromancer pyromancer, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
         pyromancer.setStandStill(true);
-        float damage = 100 + 40 * getLevel();
+        float damage = K_SPECIAL_DAMAGE + K_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= KPSPECIAL;
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - pyromancer.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - pyromancer.getLevel()) * XP_MULTIPLIER));
         }
     }
 
-    public void basicAttack(Rogue rogue, Map map) {
+    /**
+     * @param rogue
+     * @param map
+     */
+    public void basicAttack(final Rogue rogue, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
-        float hpLimit = Math.min(40, 20*getInitialHealth() + getLevel());
-        hpLimit = hpLimit / 100;
+        float hpLimit = Math.min(K_HEALTH_LIMIT, K_HEALTH_PERCENT * getInitialHealth()
+                + getLevel());
+        hpLimit = hpLimit / HUNDREAD;
         if (Math.round(hpLimit) >= rogue.getHealth()) {
             setLastDamage(Math.round(rogue.getHealth()));
             rogue.setHealth(0);
         } else {
-            float damage = 200 + 30 * getLevel();
+            float damage = K_BASIC_DAMAGE + K_BASIC_LEVEL * getLevel();
             damage *= terrainBonus;
             setLastDamage(Math.round(damage));
             damage *= KRBASIC;
@@ -66,68 +99,88 @@ public class Knight extends Hero {
         }
     }
 
-    public void specialAttack(Rogue rogue, Map map) {
+    /**
+     * @param rogue
+     * @param map
+     */
+    public void specialAttack(final Rogue rogue, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
         rogue.setStandStill(true);
-        float damage = 100 + 40 * getLevel();
+        float damage = K_SPECIAL_DAMAGE + K_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= KRSPECIAL;
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - rogue.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - rogue.getLevel()) * XP_MULTIPLIER));
         }
     }
 
-    public void basicAttack(Knight knight, Map map) {
+    /**
+     * @param knight
+     * @param map
+     */
+    public void basicAttack(final Knight knight, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
-        float hpLimit = Math.min(40, 20*getInitialHealth() + getLevel());
-        hpLimit = hpLimit / 100;
+        float hpLimit = Math.min(K_HEALTH_LIMIT, K_HEALTH_PERCENT * getInitialHealth()
+                + getLevel());
+        hpLimit = hpLimit / HUNDREAD;
         if (Math.round(hpLimit) >= knight.getHealth()) {
             setLastDamage(Math.round(knight.getHealth()));
             knight.setHealth(0);
         } else {
-            float damage = 200 + 30 * getLevel();
+            float damage = K_BASIC_DAMAGE + K_BASIC_LEVEL * getLevel();
             damage *= terrainBonus;
             setLastDamage(Math.round(damage));
             knight.addHealth(-Math.round(damage));
         }
     }
 
-    public void specialAttack(Knight knight, Map map) {
+    /**
+     * @param knight
+     * @param map
+     */
+    public void specialAttack(final Knight knight, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
         knight.setStandStill(true);
-        float damage = 100 + 40 * getLevel();
+        float damage = K_SPECIAL_DAMAGE + K_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= KKSPECIAL;
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - knight.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - knight.getLevel()) * XP_MULTIPLIER));
         }
     }
 
-    public void basicAttack(Wizard wizard, Map map) {
+    /**
+     * @param wizard
+     * @param map
+     */
+    public void basicAttack(final Wizard wizard, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
-        float hpLimit = Math.min(40, 20*getInitialHealth() + getLevel());
-        hpLimit = hpLimit / 100;
+        float hpLimit = Math.min(K_HEALTH_LIMIT, K_HEALTH_PERCENT * getInitialHealth()
+                + getLevel());
+        hpLimit = hpLimit / HUNDREAD;
         if (Math.round(hpLimit) >= wizard.getHealth()) {
             setLastDamage(Math.round(wizard.getHealth()));
             wizard.setHealth(0);
         } else {
-            float damage = 200 + 30 * getLevel();
+            float damage = K_BASIC_DAMAGE + K_BASIC_LEVEL * getLevel();
             damage *= terrainBonus;
             setLastDamage(Math.round(damage));
             damage *= KWBASIC;
@@ -135,23 +188,32 @@ public class Knight extends Hero {
         }
     }
 
-    public void specialAttack(Wizard wizard, Map map) {
+    /**
+     * @param wizard
+     * @param map
+     */
+    public void specialAttack(final Wizard wizard, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
         wizard.setStandStill(true);
-        float damage = 100 + 40 * getLevel();
+        float damage = K_SPECIAL_DAMAGE + K_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= KWSPECIAL;
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - wizard.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - wizard.getLevel()) * XP_MULTIPLIER));
         }
     }
 
-    public void accept(Hero hero, Map map) {
+    /**
+     * @param hero
+     * @param map
+     */
+    public void accept(final Hero hero, final Map map) {
         hero.basicAttack(this, map);
         hero.specialAttack(this, map);
     }

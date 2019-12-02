@@ -21,10 +21,11 @@
   <component name="ProjectId" id="1U6kqVYVRbJROus9WMh9AaRZGAV" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../lab7" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Tema2" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="org.infernus.idea.checkstyle.CheckStyleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -42,7 +43,7 @@
     <configuration name="Test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="tema2" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\workspace\\tema2\\proiect\\Tema2\\input.txt&quot; &quot;C:\\workspace\\tema2\\proiect\\Tema2\\output.txt&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;$PROJECT_DIR$/input.txt&quot; &quot;$PROJECT_DIR$/output.txt&quot;" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

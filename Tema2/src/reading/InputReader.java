@@ -13,9 +13,12 @@ public class InputReader {
         mOutputPath = outputPath;
     }
 
+    /**
+     * @return
+     */
     public GameInput load() {
-        int N = 0;
-        int M = 0;
+        int n = 0;
+        int m = 0;
         char[][] terrain = new char[1][1];
         int numberOfPlayers = 0;
         int numberOfRounds = 0;
@@ -23,18 +26,17 @@ public class InputReader {
         List<Integer> yCoordinates = new ArrayList<Integer>();
         List<Character> playerTypes = new ArrayList<Character>();
         List<List<Character>> playerMoves = new ArrayList<List<Character>>();
-        
         try {
             FileSystem fs = new FileSystem(mInputPath, mOutputPath);
 
-            N = fs.nextInt();
-            M = fs.nextInt();
+            n = fs.nextInt();
+            m = fs.nextInt();
 
-            terrain = new char[N][M];
+            terrain = new char[n][m];
 
-            for (int i = 0; i < N; ++i) {
+            for (int i = 0; i < n; ++i) {
                 String s = fs.nextWord();
-                for (int j = 0; j < M; j++) {
+                for (int j = 0; j < m; j++) {
                     terrain[i][j] = s.charAt(j);
                 }
             }
@@ -50,7 +52,7 @@ public class InputReader {
 
             numberOfRounds = fs.nextInt();
 
-            for (int i = 0 ; i < numberOfRounds; i++) {
+            for (int i = 0; i < numberOfRounds; i++) {
                 String s = fs.nextWord();
                 List<Character> list = new ArrayList<>();
                 for (int j = 0; j < numberOfPlayers; j++) {
@@ -65,6 +67,7 @@ public class InputReader {
             e1.printStackTrace();
         }
 
-        return new GameInput(N, M, terrain, numberOfPlayers, playerTypes, xCoordinates, yCoordinates, numberOfRounds, playerMoves);
+        return new GameInput(n, m, terrain, numberOfPlayers, playerTypes, xCoordinates, yCoordinates,
+                numberOfRounds, playerMoves);
     }
 }

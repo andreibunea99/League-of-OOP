@@ -1,24 +1,29 @@
 package play;
 
 import main.Map;
-import player.*;
+import player.Hero;
+import player.HeroType;
 
 import java.util.List;
 
 public class ThePlay {
     private final Map map;
-    private final int R;
-    private final int P;
+    private final int r;
+    private final int p;
     private static int currentRound;
 
-    public ThePlay(int P, int R, Map map) {
-        this.P = P;
-        this.R = R;
+    public ThePlay(final int p, final int r, final Map map) {
+        this.p = p;
+        this.r = r;
         this.map = map;
         currentRound = 0;
     }
 
-    public void round(List<List<Character>> moves, List<Hero> heroes) {
+    /**
+     * @param moves
+     * @param heroes
+     */
+    public void round(final List<List<Character>> moves, final List<Hero> heroes) {
         for (int i = 0; i < heroes.size(); i++) {
             heroes.get(i).checkWound();
         }
@@ -48,7 +53,7 @@ public class ThePlay {
                 if (heroes.get(p1).getPositionY() != heroes.get(p2).getPositionY()) {
                     continue;
                 }
-                if (heroes.get(p1).getHealth() <= 0 || heroes.get(p2).getHealth() <=0) {
+                if (heroes.get(p1).getHealth() <= 0 || heroes.get(p2).getHealth() <= 0) {
                     continue;
                 }
                 if (heroes.get(p1).getType() == HeroType.Wizard) {

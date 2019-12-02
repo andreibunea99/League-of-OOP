@@ -2,127 +2,189 @@ package player;
 
 import main.Map;
 
-import static constants.Constants.*;
+import static constants.Constants.HUNDREAD;
+import static constants.Constants.WBONUS;
+import static constants.Constants.WHEALTH;
+import static constants.Constants.WKBASIC;
+import static constants.Constants.WKSPECIAL;
+import static constants.Constants.WLEVEL;
+import static constants.Constants.WPBASIC;
+import static constants.Constants.WPSPECIAL;
+import static constants.Constants.WRBASIC;
+import static constants.Constants.WRSPECIAL;
+import static constants.Constants.WWBASIC;
+import static constants.Constants.W_BASIC_DAMAGE;
+import static constants.Constants.W_BASIC_LEVEL;
+import static constants.Constants.W_BASIC_MULTIPLIER;
+import static constants.Constants.W_SPECIAL_DAMAGE;
+import static constants.Constants.W_SPECIAL_LEVEL;
+import static constants.Constants.W_SPECIAL_MULTIPLIER;
+import static constants.Constants.XP_LIMIT;
+import static constants.Constants.XP_MULTIPLIER;
 
 public class Wizard extends Hero {
 
-    public Wizard(int positionX, int getPositionY, HeroType type) {
+    public Wizard(final int positionX, final int getPositionY, final HeroType type) {
         super(positionX, getPositionY, type);
-        setInitialHealth(400);
-        setHealthPerLevel(30);
+        setInitialHealth(WHEALTH);
+        setHealthPerLevel(WLEVEL);
     }
 
-    public void basicAttack(Pyromancer pyromancer, Map map) {
+    /**
+     * @param pyromancer
+     * @param map
+     */
+    public void basicAttack(final Pyromancer pyromancer, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'D') {
             terrainBonus = WBONUS;
         }
-        float perCent = 20 + 5 * getLevel();
-        perCent /= 100;
-        float damage = perCent * Math.min((float)(0.3 * pyromancer.getInitialHealth()), (float)(pyromancer.getHealth()));
+        float perCent = W_BASIC_DAMAGE + W_BASIC_LEVEL * getLevel();
+        perCent /= HUNDREAD;
+        float damage = perCent * Math.min(W_BASIC_MULTIPLIER * pyromancer.getInitialHealth(),
+                (float) (pyromancer.getHealth()));
         damage *= WPBASIC;
         damage *= terrainBonus;
         pyromancer.addHealth(-Math.round(damage));
     }
 
-    public void specialAttack(Pyromancer pyromancer, Map map) {
+    /**
+     * @param pyromancer
+     * @param map
+     */
+    public void specialAttack(final Pyromancer pyromancer, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'D') {
             terrainBonus = WBONUS;
         }
-        float perCent = 35 + 2 * getLevel();
-        perCent /= 100;
-        float damage = Math.min((float)(0.7), perCent);
+        float perCent = W_SPECIAL_DAMAGE + W_SPECIAL_LEVEL * getLevel();
+        perCent /= HUNDREAD;
+        float damage = Math.min(W_SPECIAL_MULTIPLIER, perCent);
         damage *= pyromancer.getLastDamage();
         damage *= WPSPECIAL;
         damage *= terrainBonus;
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - pyromancer.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - pyromancer.getLevel()) * XP_MULTIPLIER));
         }
     }
 
-    public void basicAttack(Knight knight, Map map) {
+    /**
+     * @param knight
+     * @param map
+     */
+    public void basicAttack(final Knight knight, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'D') {
             terrainBonus = WBONUS;
         }
-        float perCent = 20 + 5 * getLevel();
-        perCent /= 100;
-        float damage = perCent * Math.min((float)(0.3 * knight.getInitialHealth()), (float)(knight.getHealth()));
+        float perCent = W_BASIC_DAMAGE + W_BASIC_LEVEL * getLevel();
+        perCent /= HUNDREAD;
+        float damage = perCent * Math.min(W_BASIC_MULTIPLIER * knight.getInitialHealth(),
+                (float) (knight.getHealth()));
         damage *= WKBASIC;
         damage *= terrainBonus;
         knight.addHealth(-Math.round(damage));
     }
 
-    public void specialAttack(Knight knight, Map map) {
+    /**
+     * @param knight
+     * @param map
+     */
+    public void specialAttack(final Knight knight, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'D') {
             terrainBonus = WBONUS;
         }
-        float perCent = 35 + 2 * getLevel();
-        perCent /= 100;
-        float damage = Math.min((float)(0.7), perCent);
+        float perCent = W_SPECIAL_DAMAGE + W_SPECIAL_LEVEL * getLevel();
+        perCent /= HUNDREAD;
+        float damage = Math.min(W_SPECIAL_MULTIPLIER, perCent);
         damage *= knight.getLastDamage();
         damage *= WKSPECIAL;
         damage *= terrainBonus;
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - knight.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - knight.getLevel()) * XP_MULTIPLIER));
         }
     }
 
-    public void basicAttack(Rogue rogue, Map map) {
+    /**
+     * @param rogue
+     * @param map
+     */
+    public void basicAttack(final Rogue rogue, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'D') {
             terrainBonus = WBONUS;
         }
-        float perCent = 20 + 5 * getLevel();
-        perCent /= 100;
-        float damage = perCent * Math.min((float)(0.3 * rogue.getInitialHealth()), (float)(rogue.getHealth()));
+        float perCent = W_BASIC_DAMAGE + W_BASIC_LEVEL * getLevel();
+        perCent /= HUNDREAD;
+        float damage = perCent * Math.min(W_BASIC_MULTIPLIER * rogue.getInitialHealth(),
+                (float) (rogue.getHealth()));
         damage *= WRBASIC;
         damage *= terrainBonus;
         rogue.addHealth(-Math.round(damage));
     }
 
-    public void specialAttack(Rogue rogue, Map map) {
+    /**
+     * @param rogue
+     * @param map
+     */
+    public void specialAttack(final Rogue rogue, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'D') {
             terrainBonus = WBONUS;
         }
-        float perCent = 35 + 2 * getLevel();
-        perCent /= 100;
-        float damage = Math.min((float)(0.7), perCent);
+        float perCent = W_SPECIAL_DAMAGE + W_SPECIAL_LEVEL * getLevel();
+        perCent /= HUNDREAD;
+        float damage = Math.min(W_SPECIAL_MULTIPLIER, perCent);
         damage *= rogue.getLastDamage();
         damage *= WRSPECIAL;
         damage *= terrainBonus;
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - rogue.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - rogue.getLevel()) * XP_MULTIPLIER));
         }
     }
 
-    public void basicAttack(Wizard wizard, Map map) {
+    /**
+     * @param wizard
+     * @param map
+     */
+    public void basicAttack(final Wizard wizard, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'D') {
             terrainBonus = WBONUS;
         }
-        float perCent = 20 + 5 * getLevel();
-        perCent /= 100;
-        float damage = perCent * Math.min((float)(0.3 * wizard.getInitialHealth()), (float)(wizard.getHealth()));
+        float perCent = W_BASIC_DAMAGE + W_BASIC_LEVEL * getLevel();
+        perCent /= HUNDREAD;
+        float damage = perCent * Math.min(W_BASIC_MULTIPLIER * wizard.getInitialHealth(),
+                (float) (wizard.getHealth()));
         damage *= WWBASIC;
         damage *= terrainBonus;
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - wizard.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - wizard.getLevel()) * XP_MULTIPLIER));
         }
     }
 
-    public void specialAttack(Wizard wizard, Map map) {
+    /**
+     * @param wizard
+     * @param map
+     */
+    public void specialAttack(final Wizard wizard, final Map map) {
 
     }
 
-    public void accept(Hero hero, Map map) {
+    /**
+     * @param hero
+     * @param map
+     */
+    public void accept(final Hero hero, final Map map) {
         hero.basicAttack(this, map);
         hero.specialAttack(this, map);
     }

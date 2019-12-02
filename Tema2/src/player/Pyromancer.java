@@ -2,145 +2,203 @@ package player;
 
 import main.Map;
 
-import static constants.Constants.*;
+import static constants.Constants.PBONUS;
+import static constants.Constants.PHEALTH;
+import static constants.Constants.PKBASIC;
+import static constants.Constants.PKSPECIAL;
+import static constants.Constants.PLEVEL;
+import static constants.Constants.PPBASIC;
+import static constants.Constants.PPSPECIAL;
+import static constants.Constants.PRBASIC;
+import static constants.Constants.PRSPECIAL;
+import static constants.Constants.PWBASIC;
+import static constants.Constants.PWSPECIAL;
+import static constants.Constants.P_BASIC_DAMAGE;
+import static constants.Constants.P_BASIC_LEVEL;
+import static constants.Constants.P_ROUND_DAMAGE;
+import static constants.Constants.P_ROUND_LEVEL;
+import static constants.Constants.P_SPECIAL_DAMAGE;
+import static constants.Constants.P_SPECIAL_LEVEL;
+import static constants.Constants.XP_LIMIT;
+import static constants.Constants.XP_MULTIPLIER;
 
 public class Pyromancer extends Hero {
 
-    public Pyromancer(int positionX, int getPositionY, HeroType type) {
+    public Pyromancer(final int positionX, final int getPositionY, final HeroType type) {
         super(positionX, getPositionY, type);
-        setInitialHealth(500);
-        setHealthPerLevel(50);
+        setInitialHealth(PHEALTH);
+        setHealthPerLevel(PLEVEL);
     }
 
-    public void basicAttack(Knight knight, Map map) {
+    /**
+     * @param knight
+     * @param map
+     */
+    public void basicAttack(final Knight knight, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'V') {
             terrainBonus = PBONUS;
         }
-        float damage = 350 + 50*getLevel();
+        float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
         damage *= PKBASIC;
         knight.addHealth(-Math.round(damage));
     }
 
-    public void specialAttack(Knight knight, Map map) {
+    /**
+     * @param knight
+     * @param map
+     */
+    public void specialAttack(final Knight knight, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'V') {
             terrainBonus = PBONUS;
         }
-        float damage = 150 + 20*getLevel();
+        float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= PKSPECIAL;
-        float damageRound = 50 + 30 * getLevel() * 1.2f;
+        float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
         damageRound *= PKSPECIAL;
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - knight.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - knight.getLevel()) * XP_MULTIPLIER));
         }
         knight.setHurt(Math.round(damageRound));
         knight.setTimeOfHurt(2);
     }
 
-    public void basicAttack(Rogue rogue, Map map) {
+    /**
+     * @param rogue
+     * @param map
+     */
+    public void basicAttack(final Rogue rogue, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'V') {
             terrainBonus = PBONUS;
         }
-        float damage = 350 + 50*getLevel();
+        float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
         damage *= PRBASIC;
         rogue.addHealth(-Math.round(damage));
     }
 
-    public void specialAttack(Rogue rogue, Map map) {
+    /**
+     * @param rogue
+     * @param map
+     */
+    public void specialAttack(final Rogue rogue, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'V') {
             terrainBonus = PBONUS;
         }
-        float damage = 150 + 20*getLevel();
+        float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= PRSPECIAL;
-        float damageRound = 50 + 30 * getLevel() * 1.2f;
+        float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
         damageRound *= PRSPECIAL;
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - rogue.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - rogue.getLevel()) * XP_MULTIPLIER));
         }
         rogue.setHurt(Math.round(damageRound));
         rogue.setTimeOfHurt(2);
     }
 
-    public void basicAttack(Wizard wizard, Map map) {
+    /**
+     * @param wizard
+     * @param map
+     */
+    public void basicAttack(final Wizard wizard, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'V') {
             terrainBonus = PBONUS;
         }
-        float damage = 350 + 50*getLevel();
+        float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
         damage *= PWBASIC;
         wizard.addHealth(-Math.round(damage));
     }
 
-    public void specialAttack(Wizard wizard, Map map) {
+    /**
+     * @param wizard
+     * @param map
+     */
+    public void specialAttack(final Wizard wizard, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'V') {
             terrainBonus = PBONUS;
         }
-        float damage = 150 + 20*getLevel();
+        float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= PWSPECIAL;
-        float damageRound = 50 + 30 * getLevel() * 1.2f;
+        float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
         damageRound *= PWSPECIAL;
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - wizard.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - wizard.getLevel()) * XP_MULTIPLIER));
         }
         wizard.setHurt(Math.round(damageRound));
         wizard.setTimeOfHurt(2);
     }
 
-    public void basicAttack(Pyromancer pyromancer, Map map) {
+    /**
+     * @param pyromancer
+     * @param map
+     */
+    public void basicAttack(final Pyromancer pyromancer, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'V') {
             terrainBonus = PBONUS;
         }
-        float damage = 350 + 50*getLevel();
+        float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
         damage *= PPBASIC;
         pyromancer.addHealth(-Math.round(damage));
     }
 
-    public void specialAttack(Pyromancer pyromancer, Map map) {
+    /**
+     * @param pyromancer
+     * @param map
+     */
+    public void specialAttack(final Pyromancer pyromancer, final Map map) {
         float terrainBonus = 1f;
         if (map.getParcel(getPositionX(), getPositionY()) == 'V') {
             terrainBonus = PBONUS;
         }
-        float damage = 150 + 20*getLevel();
+        float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
         damage *= PPSPECIAL;
-        float damageRound = 50 + 30 * getLevel() * 1.2f;
+        float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
         damageRound *= PPSPECIAL;
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
-            setExperience(getExperience() + Math.max(0, 200 - (getLevel() - pyromancer.getLevel())*40));
+            setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
+                    - pyromancer.getLevel()) * XP_MULTIPLIER));
         }
         pyromancer.setHurt(Math.round(damageRound));
         pyromancer.setTimeOfHurt(2);
     }
 
-    public void accept(Hero hero, Map map) {
+    /**
+     * @param hero
+     * @param map
+     */
+    public void accept(final Hero hero, final Map map) {
         hero.basicAttack(this, map);
         hero.specialAttack(this, map);
     }

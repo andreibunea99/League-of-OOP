@@ -1,17 +1,22 @@
 package main;
 
 public class Map {
-    private final int N;
-    private final int M;
+    private final int n;
+    private final int m;
     private final char[][] map;
 
-    public Map (int N_map, int M_map, char[][] a) {
-        N = N_map;
-        M = M_map;
+    public Map(final int nMap, final int mMap, final char[][] a) {
+        n = nMap;
+        m = mMap;
         map = a;
     }
 
-    public char getParcel(int i, int j) {
+    /**
+     * @param i
+     * @param j
+     * @return
+     */
+    public char getParcel(final int i, final int j) {
         return map[i][j];
     }
 }

@@ -2,6 +2,9 @@ package player;
 
 import main.Map;
 
+import static constants.Constants.LEVEL;
+import static constants.Constants.LEVELZERO;
+
 public abstract class Hero {
     private int positionX;
     private int positionY;
@@ -18,7 +21,7 @@ public abstract class Hero {
     private int timeOfParalyze;
     private HeroType type;
 
-    public Hero(int positionX, int getPositionY, HeroType type) {
+    public Hero(final int positionX, final int getPositionY, final HeroType type) {
         this.positionX = positionX;
         this.positionY = getPositionY;
         this.type = type;
@@ -26,57 +29,93 @@ public abstract class Hero {
         lastDamage = 0;
     }
 
-    public void setInitialHealth(int initialHealth) {
+    /**
+     * @param initialHealth
+     */
+    public void setInitialHealth(final int initialHealth) {
         this.initialHealth = initialHealth;
         health = initialHealth;
     }
 
+    /**
+     * @return
+     */
     public int getInitialHealth() {
         return initialHealth;
     }
 
+    /**
+     * @return
+     */
     public boolean isStandStill() {
         return standStill;
     }
 
+    /**
+     * @return
+     */
     public int getLastDamage() {
         return lastDamage;
     }
 
-    public void setLastDamage(int lastDamage) {
+    /**
+     * @param lastDamage
+     */
+    public void setLastDamage(final int lastDamage) {
         this.lastDamage = lastDamage;
     }
 
-    public void setStandStill(boolean standStill) {
+    /**
+     * @param standStill
+     */
+    public void setStandStill(final boolean standStill) {
         this.standStill = standStill;
         setTimeOfHurt(0);
         setHurt(0);
     }
 
-    public void setHurt(int hurt) {
+    /**
+     * @param hurt
+     */
+    public void setHurt(final int hurt) {
         this.hurt = hurt;
     }
 
-    public void setTimeOfHurt(int timeOfHurt) {
+    /**
+     * @param timeOfHurt
+     */
+    public void setTimeOfHurt(final int timeOfHurt) {
         this.timeOfHurt = timeOfHurt;
         paralyzed = false;
     }
 
-    public void setTimeOfParalyze(int timeOfParalyze) {
+    /**
+     * @param timeOfParalyze
+     */
+    public void setTimeOfParalyze(final int timeOfParalyze) {
         this.timeOfParalyze = timeOfParalyze;
     }
 
-    public void setHealthPerLevel(int healthPerLevel) {
+    /**
+     * @param healthPerLevel
+     */
+    public void setHealthPerLevel(final int healthPerLevel) {
         this.healthPerLevel = healthPerLevel;
     }
 
-    public void addHealth(int x) {
+    /**
+     * @param x
+     */
+    public void addHealth(final int x) {
         health += x;
         if (health < 0) {
             health = 0;
         }
     }
 
+    /**
+     *
+     */
     public void checkWound() {
         timeOfParalyze--;
         if (hurt != 0) {
@@ -91,90 +130,167 @@ public abstract class Hero {
         }
     }
 
+    /**
+     *
+     */
     public void moveUp() {
         positionX--;
     }
 
+    /**
+     *
+     */
     public void moveDown() {
         positionX++;
     }
 
+    /**
+     *
+     */
     public void moveLeft() {
         positionY--;
     }
 
+    /**
+     *
+     */
     public void moveRight() {
         positionY++;
     }
 
+    /**
+     * @return
+     */
     public int getPositionX() {
         return positionX;
     }
 
+    /**
+     * @return
+     */
     public int getPositionY() {
         return positionY;
     }
 
+    /**
+     * @return
+     */
     public int getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
+    /**
+     * @param health
+     */
+    public void setHealth(final int health) {
         this.health = health;
     }
 
+    /**
+     * @return
+     */
     public int getLevel() {
         return level;
     }
 
+    /**
+     * @return
+     */
     public int getExperience() {
         return experience;
     }
 
-    public void setExperience(int experience) {
+    /**
+     * @param experience
+     */
+    public void setExperience(final int experience) {
         this.experience = experience;
     }
 
+    /**
+     * @return
+     */
     public HeroType getType() {
         return type;
     }
 
-    public void accept(Hero hero, Map map) {
+    /**
+     * @param hero
+     * @param map
+     */
+    public void accept(final Hero hero, final Map map) {
 
     }
 
+    /**
+     * @return
+     */
     public boolean isParalyzed() {
         return paralyzed;
     }
 
-    public void setParalyzed(boolean paralyzed) {
+    /**
+     * @param paralyzed
+     */
+    public void setParalyzed(final boolean paralyzed) {
         this.paralyzed = paralyzed;
     }
 
+    /**
+     * @param pyromancer
+     * @param map
+     */
     protected abstract void basicAttack(Pyromancer pyromancer, Map map);
 
+    /**
+     * @param knight
+     * @param map
+     */
     protected abstract void basicAttack(Knight knight, Map map);
 
     protected abstract void basicAttack(Rogue rogue, Map map);
 
+    /**
+     * @param wizard
+     * @param map
+     */
     protected abstract void basicAttack(Wizard wizard, Map map);
 
+    /**
+     * @param pyromancer
+     * @param map
+     */
     protected abstract void specialAttack(Pyromancer pyromancer, Map map);
 
+    /**
+     * @param knight
+     * @param map
+     */
     protected abstract void specialAttack(Knight knight, Map map);
 
+    /**
+     * @param rogue
+     * @param map
+     */
     protected abstract void specialAttack(Rogue rogue, Map map);
 
+    /**
+     * @param wizard
+     * @param map
+     */
     protected abstract void specialAttack(Wizard wizard, Map map);
 
+    /**
+     *
+     */
     public void finalRound() {
         if (health <= 0) {
             return;
         }
-        int levelUp = (experience - 250) / 50 + 1;
+        int levelUp = (experience - LEVELZERO) / LEVEL + 1;
         if (levelUp > level) {
             level = levelUp;
-            initialHealth += levelUp*healthPerLevel;
+            initialHealth += levelUp * healthPerLevel;
             health = initialHealth;
         }
     }
