@@ -1,0 +1,97 @@
+// @Copyright Bunea Andrei-Alexandru, 324CA
+
+
+Git: Am efectuat 4 commituri principale.
+	- Primul commit contine citirea, respectiv clasele InputReader, GameInput si Main (first commit)
+	- Al doilea commit contine si harta (clasa Map), motorul de joc (clasa ThePlay),
+	  eroul la modul general (clasa Hero), tipurile de eroi (clasa HeroType) si un set caracteristic
+	  de instructiuni pentru fiecare tip de personaj (clasele Pyromancer, Knight, Wizard, Rogue) (second commit)
+	- Al treilea commit a constat in finalizarea mecanismului de joc si rectificarea claselor
+	  deja existente, dar cu erori de checkstyle (third commit)
+	- Al patrulea commit a constat in finalizarea checkstyle-ului si deci finalizarea temei (final commit)
+
+Double Dispatch: Am folosit principiul vizitatorului astfel: in fiecare clasa caracteristica unui tip de erou
+		 exista atat metode de basicAttack() cat si de specialAttack() pentru fiecare tip de personaj pe
+		 care il poate avea ca adversar ce simbolizeaza prima abilitate si respectiv a doua abilitate
+		 aplicate in lupta cu adversarul. De asemenea fiecare tip de erou are in clasa corespunzatoare
+		 acestuia o metoda accept() ce accepta abilitatile adversarului
+
+In continuare voi descrie fiecare clasa:
+
+InputReader:   - functia load citeste rand pe rand datele de intrare: dimensiunile hartii (n, m),
+	      	 configuratia terenului (terrain[][]), numarul personajelor (numberOfPlayers),
+               	 tipul lor (playerTypes), pozitia pe harta (xCoordinates, yCoordinates),
+	         numarul de runde (numberOfRounds) si miscarile din fiecare runda (playerMoves)
+
+GameInput:     - constructorul acestei clase copiaza datele din InputReader si creeaza jucatori pe care
+		 ii adauga in lista de personaje
+
+Main: 	       - se efectueaza citirea cu ajutorul claselor precedente, se retine harta intr-un obiect al clasei
+		 Map si se creeaza jucatori de tipul corespunzator. Se instantiaza obiect al motorului de joc
+		 ThePlay si se apeleaza fiecare runda. La final se afiseaza datele despre personaje
+		 in fisierul de output
+
+Map:           - retine harta si contine metoda getParcel() care returneaza tipul parcelei cu coordonatele i si j
+
+Hero:          - contine date despre personaje:
+			- positionX: coordonata de pe OX a pozitiei jucatorului
+			- positionY: coordonata de pe OY a pozitiei jucatorului
+			- healt: nivelul curent de viata
+			- level: nivelul curent
+			- experience: experienta
+			- hurt: damage-ul dat de abilitatile overtime
+			- timeOfHurt: numarul de runde in care se aplica abilitatea overtime
+			- healthPerLevel: coeficientul de viata ce trebuie adaugat in plus cand creste nivelul
+			- initialHealth: maximul de viata la nivelul respectiv
+			- standStill: bool ce indica neputiinta de miscare dupa Slam
+			- lastDamage: ultimul damage dat de un personaj fara race modifier
+			- paralyzed: bool de indica faptul ca personajul este sub efectul Paralyze
+			- timeOfParalyze: numarul de runde in care va fi aplicat Paralyze incepand cu runda curenta
+			- type: tipul eroului
+	       - setTimeOfHurt() anuleaza efectul Paralysis intrucat a fost aplicat alta abilitate overtime
+	       - checkWound() verifica daca exista o abilitate overtime asupra personajului
+ 	       - finalRound() verifica daca jucatorul a trecut la nivelul urmator, lucru efectual la finalul rundei
+
+Pyromancer:    - basicAttack() este abilitatea Fireblast. Se verifica tipul terenului, se calculeaza damage-ul,
+		 se rotunjeste, se retine valoarea cu ajutorul setLastDamage(), se aplica race modifierul si se
+		 scade viata adversarului cu o valoare egala cu damage-ul rotunjit.
+	       - specialAttack() este abilitatea Ignite. Se verifica tipul terenului, se calculeaza damage-ul,
+		 se retine valoarea cu ajutorul setLastDamage(),se aplica race modifierul si se scade damage-ul
+		 din viata adversarului. Se calculeaza damage-ul rundelor urmatoare si se seteaza cu ajutorul
+		 setHurt() si se retine numarul de runde in care va actiona cu ajutorul setTimeOfHurt().
+		 Se calculeaza apoi experienta daca a avut moartea adversarului.
+
+Knight:        - basicAttack() este abilitatea Execute. Se verifica tipul terenului. Se verifica posibilitatea 
+		 uciderii instante a adversarului. Se calculeaza damage-ul, se rotunjeste, se retine valoarea
+                 cu ajutorul setLastDamage(), se aplica race modifierul si se scade viata adversarului cu
+		 o valoare egala cu damage-ul rotunjit.
+	       - specialAttack() este abilitatea Slam. Se verifica tipul terenului, se calculeaza damage-ul,
+		 se retine valoarea cu ajutorul setLastDamage(),se aplica race modifierul si se scade damage-ul
+		 din viata adversarului. Se seteaza incapacitarea adversarului cu ajutorul setStandStill()
+		 Se calculeaza apoi experienta daca a avut moartea adversarului.
+
+Wizard:        - basicAttack() este abilitatea Drain. Se calculeaza damage-ul, se rotunjeste, se retine valoarea
+                 cu ajutorul setLastDamage(), se aplica race modifierul si se scade viata adversarului cu
+		 o valoare egala cu damage-ul rotunjit.
+
+	       - specialAttack() este abilitatea Deflect. Se verifica tipul terenului, se calculeaza damage-ul,
+		 procent aplicat asupra getLastDamage(),se aplica race modifierul si se scade damage-ul
+		 din viata adversarului. Se calculeaza apoi experienta daca a avut moartea adversarului.
+
+Rogue:        - basicAttack() este abilitatea Backstab. Se verifica tipul terenului. Se verifica posibilitatea 
+		 uciderii instante a adversarului. Se calculeaza damage-ul, se rotunjeste, se retine valoarea
+                 cu ajutorul setLastDamage(), se aplica race modifierul si se scade viata adversarului cu
+		 o valoare egala cu damage-ul rotunjit.
+	       - specialAttack() este abilitatea Paralysis. Se verifica tipul terenului, se calculeaza damage-ul,
+		 se retine valoarea cu ajutorul setLastDamage(),se aplica race modifierul si se scade damage-ul
+		 din viata adversarului. Se calculeaza damage-ul rundelor urmatoare si se seteaza cu ajutorul
+		 setHurt() si se retine numarul de runde in care va actiona cu ajutorul setTimeOfHurt(). 
+		 Se seteaza incapacitarea adversarului cu ajutorul set Paralyzed() si setTimeOfParalyze() pentru
+		 numarul de runde corespunzator. Se calculeaza apoi experienta daca a avut moartea adversarului.
+
+ThePlay:       - metoda round() aplica mecanismul unei runde. Se verifica damage-ul overtime aplicat asupra
+		 fiecarui erou, apoi se muta cate o casuta pe directie corespunzatoare in cazul in care eroul
+		 nu se afla sub efectul Slam sau Paralysis. Se verifica apoi toate perechile posibile de eroi,
+		 iar in cazul in care 2 jucatori se afla pe aceeasi parcela, acestia isi efectueaza abilitatile,
+		 tinand cont ca wizard-ul ataca al doilea pentru a fi posibila efectuarea ebilitatii Deflect.
+		 La finalul fiecarei runde aplicam metoda finalRound() pentru a modifica nivelul fiecarui erou.

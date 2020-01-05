@@ -38,6 +38,20 @@ public class Rogue extends Hero {
     }
 
     /**
+     *
+     */
+    public void checkStrategy() {
+        if ((float) getInitialHealth() / 7 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 5) {
+            setHealth(Math.round((float) (getHealth() * 6) / 7));
+            setModifier((float) (getModifier() + 0.4));
+        }
+        if (getHealth() < Math.round((float) getInitialHealth() / 7)) {
+            setModifier((float) (getModifier() - 0.1));
+            addHealth(Math.round( (float) getHealth() / 2));
+        }
+    }
+
+    /**
      * @param pyromancer
      * @param map
      */
@@ -55,7 +69,7 @@ public class Rogue extends Hero {
         }
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
-        damage *= RPBASIC;
+        damage *= RPBASIC * getModifier();
         pyromancer.addHealth(-Math.round(damage));
     }
 
@@ -71,7 +85,7 @@ public class Rogue extends Hero {
         float damage = R_ROUND_DAMAGE + R_ROUND_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= RPSPECIAL;
+        damage *= RPSPECIAL * getModifier();
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -105,7 +119,7 @@ public class Rogue extends Hero {
             damage *= R_LUCKY_STRIKE;
         }
         setLastDamage(Math.round(damage));
-        damage *= RKBASIC;
+        damage *= RKBASIC * getModifier();
         knight.addHealth(-Math.round(damage));
     }
 
@@ -121,7 +135,7 @@ public class Rogue extends Hero {
         float damage = R_ROUND_DAMAGE + R_ROUND_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= RKSPECIAL;
+        damage *= RKSPECIAL * getModifier();
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -155,7 +169,7 @@ public class Rogue extends Hero {
         }
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
-        damage *= RWBASIC;
+        damage *= RWBASIC * getModifier();
         wizard.addHealth(-Math.round(damage));
     }
 
@@ -171,7 +185,7 @@ public class Rogue extends Hero {
         float damage = R_ROUND_DAMAGE + R_ROUND_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= RWSPECIAL;
+        damage *= RWSPECIAL * getModifier();
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -205,7 +219,7 @@ public class Rogue extends Hero {
         }
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
-        damage *= RRBASIC;
+        damage *= RRBASIC * getModifier();
         rogue.addHealth(-Math.round(damage));
 //        }
     }
@@ -222,7 +236,7 @@ public class Rogue extends Hero {
         float damage = R_ROUND_DAMAGE + R_ROUND_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= RRSPECIAL;
+        damage *= RRSPECIAL * getModifier();
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()

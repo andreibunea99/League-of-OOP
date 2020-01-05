@@ -31,6 +31,20 @@ public class Wizard extends Hero {
     }
 
     /**
+     *
+     */
+    public void checkStrategy() {
+        if ((float) getInitialHealth() / 4 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 2) {
+            setHealth(Math.round((float) (getHealth() * 9) / 10));
+            setModifier((float) (getModifier() + 0.6));
+        }
+        if (getHealth() < Math.round((float) getInitialHealth() / 4)) {
+            setModifier((float) (getModifier() - 0.2));
+            addHealth(Math.round( (float) getHealth() / 5));
+        }
+    }
+
+    /**
      * @param pyromancer
      * @param map
      */
@@ -43,7 +57,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = perCent * Math.min(W_BASIC_MULTIPLIER * pyromancer.getInitialHealth(),
                 (float) (pyromancer.getHealth()));
-        damage *= WPBASIC;
+        damage *= WPBASIC * getModifier();
         damage *= terrainBonus;
         pyromancer.addHealth(-Math.round(damage));
     }
@@ -61,7 +75,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = Math.min(W_SPECIAL_MULTIPLIER, perCent);
         damage *= pyromancer.getLastDamage();
-        damage *= WPSPECIAL;
+        damage *= WPSPECIAL * getModifier();
         damage *= terrainBonus;
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
@@ -83,7 +97,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = perCent * Math.min(W_BASIC_MULTIPLIER * knight.getInitialHealth(),
                 (float) (knight.getHealth()));
-        damage *= WKBASIC;
+        damage *= WKBASIC * getModifier();
         damage *= terrainBonus;
         knight.addHealth(-Math.round(damage));
     }
@@ -101,7 +115,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = Math.min(W_SPECIAL_MULTIPLIER, perCent);
         damage *= knight.getLastDamage();
-        damage *= WKSPECIAL;
+        damage *= WKSPECIAL * getModifier();
         damage *= terrainBonus;
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
@@ -123,7 +137,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = perCent * Math.min(W_BASIC_MULTIPLIER * rogue.getInitialHealth(),
                 (float) (rogue.getHealth()));
-        damage *= WRBASIC;
+        damage *= WRBASIC * getModifier();
         damage *= terrainBonus;
         rogue.addHealth(-Math.round(damage));
     }
@@ -141,7 +155,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = Math.min(W_SPECIAL_MULTIPLIER, perCent);
         damage *= rogue.getLastDamage();
-        damage *= WRSPECIAL;
+        damage *= WRSPECIAL * getModifier();
         damage *= terrainBonus;
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
@@ -163,7 +177,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = perCent * Math.min(W_BASIC_MULTIPLIER * wizard.getInitialHealth(),
                 (float) (wizard.getHealth()));
-        damage *= WWBASIC;
+        damage *= WWBASIC * getModifier();
         damage *= terrainBonus;
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {

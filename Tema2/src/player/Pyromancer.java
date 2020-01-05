@@ -31,6 +31,20 @@ public class Pyromancer extends Hero {
     }
 
     /**
+     *
+     */
+    public void checkStrategy() {
+        if ((float) getInitialHealth() / 4 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 3) {
+            setHealth(Math.round((float) (getHealth() * 3) / 4));
+            setModifier((float) (getModifier() + 0.7));
+        }
+        if (getHealth() < Math.round((float) getInitialHealth() / 4)) {
+            setModifier((float) (getModifier() - 0.3));
+            addHealth(Math.round( (float) getHealth() / 3));
+        }
+    }
+
+    /**
      * @param knight
      * @param map
      */
@@ -42,7 +56,7 @@ public class Pyromancer extends Hero {
         float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
-        damage *= PKBASIC;
+        damage *= PKBASIC * getModifier();
         knight.addHealth(-Math.round(damage));
     }
 
@@ -58,10 +72,10 @@ public class Pyromancer extends Hero {
         float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= PKSPECIAL;
+        damage *= PKSPECIAL * getModifier();
         float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
-        damageRound *= PKSPECIAL;
+        damageRound *= PKSPECIAL * getModifier();
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -83,7 +97,7 @@ public class Pyromancer extends Hero {
         float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
-        damage *= PRBASIC;
+        damage *= PRBASIC * getModifier();
         rogue.addHealth(-Math.round(damage));
     }
 
@@ -99,10 +113,10 @@ public class Pyromancer extends Hero {
         float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= PRSPECIAL;
+        damage *= PRSPECIAL * getModifier();
         float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
-        damageRound *= PRSPECIAL;
+        damageRound *= PRSPECIAL * getModifier();
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -124,7 +138,7 @@ public class Pyromancer extends Hero {
         float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
-        damage *= PWBASIC;
+        damage *= PWBASIC * getModifier();
         wizard.addHealth(-Math.round(damage));
     }
 
@@ -140,10 +154,10 @@ public class Pyromancer extends Hero {
         float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= PWSPECIAL;
+        damage *= PWSPECIAL * getModifier();
         float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
-        damageRound *= PWSPECIAL;
+        damageRound *= PWSPECIAL * getModifier();
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -165,7 +179,7 @@ public class Pyromancer extends Hero {
         float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage));
-        damage *= PPBASIC;
+        damage *= PPBASIC * getModifier();
         pyromancer.addHealth(-Math.round(damage));
     }
 
@@ -181,10 +195,10 @@ public class Pyromancer extends Hero {
         float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= PPSPECIAL;
+        damage *= PPSPECIAL * getModifier();
         float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
-        damageRound *= PPSPECIAL;
+        damageRound *= PPSPECIAL * getModifier();
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()

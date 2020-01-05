@@ -56,6 +56,8 @@ public class ThePlay {
                 if (heroes.get(p1).getHealth() <= 0 || heroes.get(p2).getHealth() <= 0) {
                     continue;
                 }
+                heroes.get(p1).checkStrategy();
+                heroes.get(p2).checkStrategy();
                 if (heroes.get(p1).getType() == HeroType.Wizard) {
                     heroes.get(p1).accept(heroes.get(p2), map);
                     heroes.get(p2).accept(heroes.get(p1), map);

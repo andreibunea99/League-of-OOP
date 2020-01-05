@@ -6,6 +6,7 @@ import static constants.Constants.LEVEL;
 import static constants.Constants.LEVELZERO;
 
 public abstract class Hero {
+    private float modifier;
     private int positionX;
     private int positionY;
     private int health;
@@ -27,6 +28,7 @@ public abstract class Hero {
         this.type = type;
         level = 0;
         lastDamage = 0;
+        modifier = 1;
     }
 
     /**
@@ -128,6 +130,20 @@ public abstract class Hero {
         if (timeOfParalyze == 0) {
             paralyzed = false;
         }
+    }
+
+    /**
+     * @return
+     */
+    public float getModifier() {
+        return modifier;
+    }
+
+    /**
+     * @param modifier
+     */
+    public void setModifier(float modifier) {
+        this.modifier = modifier;
     }
 
     /**
@@ -234,6 +250,13 @@ public abstract class Hero {
      */
     public void setParalyzed(final boolean paralyzed) {
         this.paralyzed = paralyzed;
+    }
+
+    /**
+     *
+     */
+    public void checkStrategy() {
+
     }
 
     /**

@@ -1,5 +1,6 @@
 package reading;
 
+import angels.Angel;
 import fileio.FileSystem;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class InputReader {
         List<Integer> yCoordinates = new ArrayList<Integer>();
         List<Character> playerTypes = new ArrayList<Character>();
         List<List<Character>> playerMoves = new ArrayList<List<Character>>();
+        List<List<String>> angelsRound = new ArrayList<>();
         try {
             FileSystem fs = new FileSystem(mInputPath, mOutputPath);
 
@@ -61,6 +63,15 @@ public class InputReader {
                 playerMoves.add(list);
             }
 
+            for (int i = 0; i < numberOfRounds; i++) {
+                int nrOfAngels = fs.nextInt();
+                List<String> angelList = new ArrayList<>();
+                for (int j = 0; j < nrOfAngels; j++) {
+                    String s = fs.nextWord();
+                    angelList.add(s);
+                }
+                angelsRound.add(angelList);
+            }
             fs.close();
 
         } catch (Exception e1) {
@@ -68,6 +79,6 @@ public class InputReader {
         }
 
         return new GameInput(n, m, terrain, numberOfPlayers, playerTypes, xCoordinates, yCoordinates,
-                numberOfRounds, playerMoves);
+                numberOfRounds, playerMoves, angelsRound);
     }
 }
