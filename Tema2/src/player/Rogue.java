@@ -30,6 +30,12 @@ import static constants.Constants.XP_MULTIPLIER;
 public class Rogue extends Hero {
 
     private int chance;
+    public static final int LEFT = 7;
+    public static final int RIGHT = 5;
+    public static final int NUM = 7;
+    public static final int NR = 6;
+    public static final float M1 = 0.4f;
+    public static final float M2 = 0.1f;
 
     public Rogue(final int positionX, final int getPositionY, final HeroType type, final int id) {
         super(positionX, getPositionY, type, id);
@@ -45,13 +51,14 @@ public class Rogue extends Hero {
         if (isParalyzed() || getStandStill() > 0) {
             return;
         }
-        if ((float) getInitialHealth() / 7 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 5) {
-            setHealth(Math.round((float) (getHealth() * 6) / 7));
-            setModifier((float) (getModifier() + 0.4));
+        if ((float) getInitialHealth() / LEFT < (float) getHealth()
+                && getHealth() < (float) getInitialHealth() / RIGHT) {
+            setHealth(Math.round((float) (getHealth() * NR) / NUM));
+            setModifier(getModifier() + M1);
         }
-        if (getHealth() < Math.round((float) getInitialHealth() / 7)) {
-            setModifier((float) (getModifier() - 0.1));
-            addHealth(Math.round( (float) getHealth() / 2));
+        if (getHealth() < Math.round((float) getInitialHealth() / LEFT)) {
+            setModifier(getModifier() - M2);
+            addHealth(Math.round((float) getHealth() / 2));
         }
     }
 

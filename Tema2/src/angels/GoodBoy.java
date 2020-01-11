@@ -7,34 +7,58 @@ import player.Wizard;
 
 public class GoodBoy extends Angel {
 
-    public GoodBoy(int x, int y) {
+    public static final float KD = 0.4f;
+    public static final float PD = 0.5f;
+    public static final float RD = 0.4f;
+    public static final float WD = 0.3f;
+    public static final int KH = 20;
+    public static final int PH = 30;
+    public static final int RH = 40;
+    public static final int WH = 50;
+
+    public GoodBoy(final int x, final int y) {
         super(AngelType.GoodBoy, x, y);
     }
 
-    public void castAngel(Knight knight) {
-        knight.setModifier((float) (knight.getModifier() + 0.4));
-        knight.addHealth(20);
+    /**
+     * @param knight
+     */
+    public void castAngel(final Knight knight) {
+        knight.setModifier((float) (knight.getModifier() + KD));
+        knight.addHealth(KH);
         knight.setHealth(Math.min(knight.getHealth(), knight.getInitialHealth()));
     }
 
-    public void castAngel(Pyromancer pyromancer) {
-        pyromancer.setModifier((float) (pyromancer.getModifier() + 0.5));
-        pyromancer.addHealth(30);
+    /**
+     * @param pyromancer
+     */
+    public void castAngel(final Pyromancer pyromancer) {
+        pyromancer.setModifier((float) (pyromancer.getModifier() + PD));
+        pyromancer.addHealth(PH);
         pyromancer.setHealth(Math.min(pyromancer.getHealth(), pyromancer.getInitialHealth()));
     }
 
-    public void castAngel(Rogue rogue) {
-        rogue.setModifier((float) (rogue.getModifier() + 0.4));
-        rogue.addHealth(40);
+    /**
+     * @param rogue
+     */
+    public void castAngel(final Rogue rogue) {
+        rogue.setModifier((float) (rogue.getModifier() + RD));
+        rogue.addHealth(RH);
         rogue.setHealth(Math.min(rogue.getHealth(), rogue.getInitialHealth()));
     }
 
-    public void castAngel(Wizard wizard) {
-        wizard.setModifier((float) (wizard.getModifier() + 0.3));
-        wizard.addHealth(50);
+    /**
+     * @param wizard
+     */
+    public void castAngel(final Wizard wizard) {
+        wizard.setModifier((float) (wizard.getModifier() + WD));
+        wizard.addHealth(WH);
         wizard.setHealth(Math.min(wizard.getHealth(), wizard.getInitialHealth()));
     }
 
+    /**
+     * @return
+     */
     public String printAngel() {
         return "GoodBoy helped";
     }

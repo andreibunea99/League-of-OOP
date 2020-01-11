@@ -25,6 +25,13 @@ import static constants.Constants.XP_MULTIPLIER;
 
 public class Wizard extends Hero {
 
+    public static final int LEFT = 4;
+    public static final int RIGHT = 2;
+    public static final int NUM = 10;
+    public static final int NR = 9;
+    public static final float M1 = 0.6f;
+    public static final float M2 = 0.2f;
+
     public Wizard(final int positionX, final int getPositionY, final HeroType type, final int id) {
         super(positionX, getPositionY, type, id);
         setInitialHealth(WHEALTH);
@@ -38,13 +45,14 @@ public class Wizard extends Hero {
         if (isParalyzed() || getStandStill() > 0) {
             return;
         }
-        if ((float) getInitialHealth() / 4 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 2) {
-            setHealth(Math.round((float) (getHealth() * 9) / 10));
-            setModifier((float) (getModifier() + 0.6));
+        if ((float) getInitialHealth() / LEFT < (float) getHealth()
+                && getHealth() < (float) getInitialHealth() / RIGHT) {
+            setHealth(Math.round((float) (getHealth() * NR) / NUM));
+            setModifier(getModifier() + M1);
         }
-        if (getHealth() < Math.round((float) getInitialHealth() / 4)) {
-            setModifier((float) (getModifier() - 0.2));
-            addHealth(Math.round( (float) getHealth() / 5));
+        if (getHealth() < Math.round((float) getInitialHealth() / LEFT)) {
+            setModifier(getModifier() - M2);
+            addHealth(Math.round((float) getHealth() / RIGHT));
         }
     }
 
@@ -204,10 +212,7 @@ public class Wizard extends Hero {
      */
     public void accept(final Hero hero, final Map map) {
         hero.basicAttack(this, map);
-//        System.out.println("Mai am: " + getHealth());
         hero.specialAttack(this, map);
-//        System.out.println("Mai am: " + getHealth());
-//        System.out.println();
     }
 
     /**

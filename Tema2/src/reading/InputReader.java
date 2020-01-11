@@ -1,6 +1,5 @@
 package reading;
 
-import angels.Angel;
 import fileio.FileSystem;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +77,7 @@ public class InputReader {
             e1.printStackTrace();
         }
 
-        return new GameInput(n, m, terrain, numberOfPlayers, playerTypes, xCoordinates, yCoordinates,
-                numberOfRounds, playerMoves, angelsRound);
+        return new GameInput(n, m, terrain, numberOfPlayers, playerTypes, xCoordinates,
+                yCoordinates, numberOfRounds, playerMoves, angelsRound);
     }
 }

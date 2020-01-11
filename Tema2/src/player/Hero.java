@@ -23,7 +23,7 @@ public abstract class Hero {
     private int timeOfParalyze;
     private HeroType type;
     private int id;
-    private int XPNextLevel;
+    private int xpNextLevel;
 
     public Hero(final int positionX, final int getPositionY, final HeroType type, final int id) {
         this.positionX = positionX;
@@ -33,7 +33,7 @@ public abstract class Hero {
         level = 0;
         lastDamage = 0;
         modifier = 1;
-        XPNextLevel = 250;
+        xpNextLevel = LEVELZERO;
     }
 
     /**
@@ -124,7 +124,7 @@ public abstract class Hero {
      * @return
      */
     public int getXPNextLevel() {
-        return XPNextLevel;
+        return xpNextLevel;
     }
 
     /**
@@ -157,7 +157,7 @@ public abstract class Hero {
     /**
      * @param modifier
      */
-    public void setModifier(float modifier) {
+    public void setModifier(final float modifier) {
         this.modifier = modifier;
     }
 
@@ -333,8 +333,8 @@ public abstract class Hero {
      *
      */
     public void finalRound() {
-        while (experience >= XPNextLevel) {
-            XPNextLevel += 50;
+        while (experience >= xpNextLevel) {
+            xpNextLevel += LEVEL;
             level++;
             initialHealth += healthPerLevel;
             health = initialHealth;

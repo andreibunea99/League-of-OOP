@@ -25,7 +25,15 @@ import static constants.Constants.XP_MULTIPLIER;
 
 public class Pyromancer extends Hero {
 
-    public Pyromancer(final int positionX, final int getPositionY, final HeroType type, final int id) {
+    public static final int LEFT = 4;
+    public static final int RIGHT = 3;
+    public static final int NUM = 4;
+    public static final int NR = 3;
+    public static final float M1 = 0.7f;
+    public static final float M2 = 0.3f;
+
+    public Pyromancer(final int positionX, final int getPositionY, final HeroType type,
+                      final int id) {
         super(positionX, getPositionY, type, id);
         setInitialHealth(PHEALTH);
         setHealthPerLevel(PLEVEL);
@@ -38,13 +46,14 @@ public class Pyromancer extends Hero {
         if (isParalyzed() || getStandStill() > 0) {
             return;
         }
-        if ((float) getInitialHealth() / 4 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 3) {
-            setHealth(Math.round((float) (getHealth() * 3) / 4));
-            setModifier((float) (getModifier() + 0.7));
+        if ((float) getInitialHealth() / LEFT < (float) getHealth()
+                && getHealth() < (float) getInitialHealth() / RIGHT) {
+            setHealth(Math.round((float) (getHealth() * NR) / NUM));
+            setModifier(getModifier() + M1);
         }
-        if (getHealth() < Math.round((float) getInitialHealth() / 4)) {
-            setModifier((float) (getModifier() - 0.3));
-            addHealth(Math.round( (float) getHealth() / 3));
+        if (getHealth() < Math.round((float) getInitialHealth() / LEFT)) {
+            setModifier(getModifier() - M2);
+            addHealth(Math.round((float) getHealth() / NR));
         }
     }
 

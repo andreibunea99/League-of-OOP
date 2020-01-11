@@ -1,29 +1,52 @@
 package angels;
 
-import player.*;
+import player.Knight;
+import player.Pyromancer;
+import player.Rogue;
+import player.Wizard;
 
 public class DamageAngel extends Angel {
 
-    public DamageAngel(int x, int y) {
+    public static final float K = 0.15f;
+    public static final float P = 0.2f;
+    public static final float R = 0.3f;
+    public static final float W = 0.4f;
+
+    public DamageAngel(final int x, final int y) {
         super(AngelType.DamageAngel, x, y);
     }
 
-    public void castAngel(Knight knight) {
-        knight.setModifier((float) (knight.getModifier() + 0.15));
+    /**
+     * @param knight
+     */
+    public void castAngel(final Knight knight) {
+        knight.setModifier((float) (knight.getModifier() + K));
     }
 
-    public void castAngel(Pyromancer pyromancer) {
-        pyromancer.setModifier((float) (pyromancer.getModifier() + 0.2));
+    /**
+     * @param pyromancer
+     */
+    public void castAngel(final Pyromancer pyromancer) {
+        pyromancer.setModifier((float) (pyromancer.getModifier() + P));
     }
 
-    public void castAngel(Rogue rogue) {
-        rogue.setModifier((float) (rogue.getModifier() + 0.3));
+    /**
+     * @param rogue
+     */
+    public void castAngel(final Rogue rogue) {
+        rogue.setModifier((float) (rogue.getModifier() + R));
     }
 
-    public void castAngel(Wizard wizard) {
-        wizard.setModifier((float) (wizard.getModifier() + 0.4));
+    /**
+     * @param wizard
+     */
+    public void castAngel(final Wizard wizard) {
+        wizard.setModifier((float) (wizard.getModifier() + W));
     }
 
+    /**
+     * @return
+     */
     public String printAngel() {
         return "DamageAngel helped";
     }

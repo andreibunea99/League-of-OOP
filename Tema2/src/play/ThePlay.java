@@ -26,8 +26,8 @@ public class ThePlay {
      * @param moves
      * @param heroes
      */
-    public void round(final List<List<Character>> moves, final List<Hero> heroes, final List<List<Angel>> angels,
-                      PrintWriter printWriter) {
+    public void round(final List<List<Character>> moves, final List<Hero> heroes,
+                      final List<List<Angel>> angels, final PrintWriter printWriter) {
         printWriter.println("~~ Round " + (currentRound + 1) + " ~~");
         for (int i = 0; i < heroes.size(); i++) {
             heroes.get(i).checkWound();
@@ -53,7 +53,6 @@ public class ThePlay {
             }
         }
         for (int p1 = 0; p1 < heroes.size(); p1++) {
-//            boolean solo = heroes.get(p1).isStandStill();
             for (int p2 = p1 + 1; p2 < heroes.size(); p2++) {
                 if (heroes.get(p1).getPositionX() != heroes.get(p2).getPositionX()) {
                     continue;
@@ -64,21 +63,6 @@ public class ThePlay {
                 if (heroes.get(p1).getHealth() <= 0 || heroes.get(p2).getHealth() <= 0) {
                     continue;
                 }
-//                solo = false;
-//                if (heroes.get(p1).getStandStill() >) {
-//                    heroes.get(p1).setStandStill(false);
-//                } else {
-//                if (heroes.get(p1).getStandStill() == 0) {
-//                    heroes.get(p1).checkStrategy();
-//                }
-//                }
-//                if (heroes.get(p2).isStandStill()) {
-//                    heroes.get(p2).setStandStill(false);
-//                } else {
-//                if (heroes.get(p2).getStandStill() == 0) {
-//                    heroes.get(p2).checkStrategy();
-//                }
-//                }
                 if (heroes.get(p1).getType() == HeroType.Wizard) {
                     heroes.get(p1).accept(heroes.get(p2), map);
                     heroes.get(p2).accept(heroes.get(p1), map);
@@ -86,67 +70,68 @@ public class ThePlay {
                     heroes.get(p2).accept(heroes.get(p1), map);
                     heroes.get(p1).accept(heroes.get(p2), map);
                 }
-//                System.out.println("------------- " + heroes.get(p1).getType() + " fights " + heroes.get(p2).getType());
                 if (heroes.get(p2).getHealth() <= 0) {
-                    printWriter.println("Player " + heroes.get(p2).getType() + " " + heroes.get(p2).getId() +
-                            " was killed by " + heroes.get(p1).getType() + " " + heroes.get(p1).getId());
+                    printWriter.println("Player " + heroes.get(p2).getType() + " "
+                            + heroes.get(p2).getId() + " was killed by "
+                            + heroes.get(p1).getType() + " " + heroes.get(p1).getId());
                 }
                 if (heroes.get(p1).getHealth() <= 0) {
-                    printWriter.println("Player " + heroes.get(p1).getType() + " " + heroes.get(p1).getId() +
-                            " was killed by " + heroes.get(p2).getType() + " " + heroes.get(p2).getId());
+                    printWriter.println("Player " + heroes.get(p1).getType()
+                            + " " + heroes.get(p1).getId() + " was killed by "
+                            + heroes.get(p2).getType() + " " + heroes.get(p2).getId());
                 }
             }
-//            if (solo) {
-//                heroes.get(p1).setStandStill(false);
-//            }
         }
         for (int i = 0; i < heroes.size(); i++) {
             int level = heroes.get(i).getLevel();
             heroes.get(i).finalRound();
             for (int j = level + 1; j <= heroes.get(i).getLevel(); j++) {
-                printWriter.println(heroes.get(i).getType() + " " + heroes.get(i).getId() + " reached level " + j);
+                printWriter.println(heroes.get(i).getType() + " "
+                        + heroes.get(i).getId() + " reached level " + j);
             }
         }
         for (int i = 0; i < angels.get(currentRound).size(); i++) {
-            printWriter.println("Angel " + angels.get(currentRound).get(i).getType() + " was spawned at " +
-                    angels.get(currentRound).get(i).getX() + " " + angels.get(currentRound).get(i).getY());
+            printWriter.println("Angel " + angels.get(currentRound).get(i).getType()
+                    + " was spawned at " + angels.get(currentRound).get(i).getX()
+                    + " " + angels.get(currentRound).get(i).getY());
             for (int p1 = 0; p1 < heroes.size(); p1++) {
-                if (heroes.get(p1).getHealth() <= 0 && angels.get(currentRound).get(i).getType() != AngelType.Spawner) {
+                if (heroes.get(p1).getHealth() <= 0
+                        && angels.get(currentRound).get(i).getType() != AngelType.Spawner) {
                     continue;
                 }
                 if (heroes.get(p1).getPositionX() != angels.get(currentRound).get(i).getX()) {
                     continue;
-                } else if (heroes.get(p1).getPositionY() != angels.get(currentRound).get(i).getY()) {
+                } else if (heroes.get(p1).getPositionY()
+                        != angels.get(currentRound).get(i).getY()) {
                     continue;
                 }
-                if (angels.get(currentRound).get(i).getType() == AngelType.Spawner && heroes.get(p1).getHealth() > 0) {
+                if (angels.get(currentRound).get(i).getType() == AngelType.Spawner
+                        && heroes.get(p1).getHealth() > 0) {
                     continue;
                 }
-//                System.out.println(heroes.get(p1).getType()+ " " + heroes.get(p1).getExperience() + " " + angels.get(currentRound).get(i).getType());
-                printWriter.println(angels.get(currentRound).get(i).printAngel() + " " + heroes.get(p1).getType() + " " + heroes.get(p1).getId());
+                printWriter.println(angels.get(currentRound).get(i).printAngel()
+                        + " " + heroes.get(p1).getType() + " " + heroes.get(p1).getId());
                 int health = heroes.get(p1).getHealth();
                 heroes.get(p1).accept(angels.get(currentRound).get(i));
                 if (heroes.get(p1).getHealth() <= 0) {
-                    printWriter.println("Player " + heroes.get(p1).getType() + " " + heroes.get(p1).getId() + " was killed by an angel");
+                    printWriter.println("Player " + heroes.get(p1).getType()
+                            + " " + heroes.get(p1).getId() + " was killed by an angel");
                     continue;
                 }
-                if (angels.get(currentRound).get(i).getType() == AngelType.Spawner && health <= 0 && heroes.get(p1).getHealth() > 0) {
-                        printWriter.println("Player " + heroes.get(p1).getType() + " " + heroes.get(p1).getId() +
-                                " was brought to life by an angel");
+                if (angels.get(currentRound).get(i).getType() == AngelType.Spawner && health <= 0
+                        && heroes.get(p1).getHealth() > 0) {
+                        printWriter.println("Player " + heroes.get(p1).getType() + " "
+                                + heroes.get(p1).getId() + " was brought to life by an angel");
                         continue;
                 }
                 int level = heroes.get(p1).getLevel();
                 heroes.get(p1).finalRound();
                 for (int j = level + 1; j <= heroes.get(p1).getLevel(); j++) {
-                    printWriter.println(heroes.get(p1).getType() + " " + heroes.get(p1).getId() + " reached level " + j);
+                    printWriter.println(heroes.get(p1).getType() + " "
+                            + heroes.get(p1).getId() + " reached level " + j);
                 }
             }
         }
-
-//        for (int i = 0; i < heroes.size(); i++) {
-//            System.out.println("Runda " + currentRound + " " + heroes.get(i).getType() + " " + heroes.get(i).getExperience() + " " + heroes.get(i).getHealth() + " " + heroes.get(i).getPositionX() + " " +
-//                    heroes.get(i).getPositionY() + " --------------------- " + heroes.get(i).getStandStill());
-//        }
         currentRound++;
     }
 }

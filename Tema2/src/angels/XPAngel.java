@@ -6,27 +6,46 @@ import player.Rogue;
 import player.Wizard;
 
 public class XPAngel extends Angel {
+    public static final int K = 45;
+    public static final int P = 50;
+    public static final int R = 40;
+    public static final int W = 60;
 
-    public XPAngel(int x, int y) {
+    public XPAngel(final int x, final int y) {
         super(AngelType.XPAngel, x, y);
     }
 
-    public void castAngel(Knight knight) {
-        knight.setExperience(knight.getExperience() + 45);
+    /**
+     * @param knight
+     */
+    public void castAngel(final Knight knight) {
+        knight.setExperience(knight.getExperience() + K);
     }
 
-    public void castAngel(Pyromancer pyromancer) {
-        pyromancer.setExperience(pyromancer.getExperience() + 50);
+    /**
+     * @param pyromancer
+     */
+    public void castAngel(final Pyromancer pyromancer) {
+        pyromancer.setExperience(pyromancer.getExperience() + P);
     }
 
-    public void castAngel(Rogue rogue) {
-        rogue.setExperience(rogue.getExperience() + 40);
+    /**
+     * @param rogue
+     */
+    public void castAngel(final Rogue rogue) {
+        rogue.setExperience(rogue.getExperience() + R);
     }
 
-    public void castAngel(Wizard wizard) {
-        wizard.setExperience(wizard.getExperience() + 60);
+    /**
+     * @param wizard
+     */
+    public void castAngel(final Wizard wizard) {
+        wizard.setExperience(wizard.getExperience() + W);
     }
 
+    /**
+     * @return
+     */
     public String printAngel() {
         return "XPAngel helped";
     }

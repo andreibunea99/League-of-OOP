@@ -7,38 +7,58 @@ import player.Wizard;
 
 public class Spawner extends Angel {
 
-    public Spawner(int x, int y) {
+    public static final int K = 200;
+    public static final int P = 150;
+    public static final int R = 180;
+    public static final int W = 120;
+
+    public Spawner(final int x, final int y) {
         super(AngelType.Spawner, x, y);
     }
 
-    public void castAngel(Knight knight) {
+    /**
+     * @param knight
+     */
+    public void castAngel(final Knight knight) {
         if (knight.getHealth() > 0) {
             return;
         }
-        knight.setHealth(200);
+        knight.setHealth(K);
     }
 
-    public void castAngel(Pyromancer pyromancer) {
+    /**
+     * @param pyromancer
+     */
+    public void castAngel(final Pyromancer pyromancer) {
         if (pyromancer.getHealth() > 0) {
             return;
         }
-        pyromancer.setHealth(150);
+        pyromancer.setHealth(P);
     }
 
-    public void castAngel(Rogue rogue) {
+    /**
+     * @param rogue
+     */
+    public void castAngel(final Rogue rogue) {
         if (rogue.getHealth() > 0) {
             return;
         }
-        rogue.setHealth(180);
+        rogue.setHealth(R);
     }
 
-    public void castAngel(Wizard wizard) {
+    /**
+     * @param wizard
+     */
+    public void castAngel(final Wizard wizard) {
         if (wizard.getHealth() > 0) {
             return;
         }
-        wizard.setHealth(120);
+        wizard.setHealth(W);
     }
 
+    /**
+     * @return
+     */
     public String printAngel() {
         return "Spawner helped";
     }

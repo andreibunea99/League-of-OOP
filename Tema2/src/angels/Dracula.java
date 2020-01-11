@@ -7,30 +7,54 @@ import player.Wizard;
 
 public class Dracula extends Angel {
 
-    public Dracula(int x, int y) {
+    public Dracula(final int x, final int y) {
         super(AngelType.Dracula, x, y);
     }
 
-    public void castAngel(Knight knight) {
-        knight.setModifier((float) (knight.getModifier() - 0.2));
-        knight.addHealth(-60);
+    public static final int KH = -60;
+    public static final int PH = -40;
+    public static final int RH = -35;
+    public static final int WH = -20;
+    public static final float KD = 0.2f;
+    public static final float PD = 0.3f;
+    public static final float RD = 0.1f;
+    public static final float WD = 0.4f;
+
+    /**
+     * @param knight
+     */
+    public void castAngel(final Knight knight) {
+        knight.setModifier((float) (knight.getModifier() - KD));
+        knight.addHealth(KH);
     }
 
-    public void castAngel(Pyromancer pyromancer) {
-        pyromancer.setModifier((float) (pyromancer.getModifier() - 0.3));
-        pyromancer.addHealth(-40);
+    /**
+     * @param pyromancer
+     */
+    public void castAngel(final Pyromancer pyromancer) {
+        pyromancer.setModifier((float) (pyromancer.getModifier() - PD));
+        pyromancer.addHealth(PH);
     }
 
-    public void castAngel(Rogue rogue) {
-        rogue.setModifier((float) (rogue.getModifier() - 0.1));
-        rogue.addHealth(-35);
+    /**
+     * @param rogue
+     */
+    public void castAngel(final Rogue rogue) {
+        rogue.setModifier((float) (rogue.getModifier() - RD));
+        rogue.addHealth(RH);
     }
 
-    public void castAngel(Wizard wizard) {
-        wizard.setModifier((float) (wizard.getModifier() - 0.4));
-        wizard.addHealth(-20);
+    /**
+     * @param wizard
+     */
+    public void castAngel(final Wizard wizard) {
+        wizard.setModifier((float) (wizard.getModifier() - WD));
+        wizard.addHealth(WH);
     }
 
+    /**
+     * @return
+     */
     public String printAngel() {
         return "Dracula hit";
     }

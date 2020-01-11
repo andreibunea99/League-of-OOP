@@ -3,7 +3,9 @@ package main;
 import angels.Angel;
 import angels.AngelFactory;
 import play.ThePlay;
-import player.*;
+import player.Hero;
+import player.HeroFactory;
+import player.HeroType;
 import reading.GameInput;
 import reading.InputReader;
 
@@ -43,37 +45,6 @@ public final class Main {
         PrintWriter printWriter = new PrintWriter(fileWriter);
         ThePlay game = new ThePlay(gameInput.getP(), gameInput.getR(), map);
         for (int i = 0; i < gameInput.getR(); i++) {
-//            for (int j = 0; j < heroes.size(); j++) {
-//                if (heroes.get(j).getHealth() <= 0) {
-//                    if (heroes.get(j).getType() == HeroType.Pyromancer) {
-//                        printWriter.print("P ");
-//                    } else if (heroes.get(j).getType() == HeroType.Knight) {
-//                        printWriter.print("K ");
-//                    } else if (heroes.get(j).getType() == HeroType.Rogue) {
-//                        printWriter.print("R ");
-//                    } else {
-//                        printWriter.print("W ");
-//                    }
-//                    if (j == heroes.size() - 1) {
-//                        printWriter.print("dead");
-//                        continue;
-//                    }
-//                    printWriter.println("dead");
-//                    continue;
-//                }
-//                if (heroes.get(j).getType() == HeroType.Pyromancer) {
-//                    printWriter.print("P ");
-//                } else if (heroes.get(j).getType() == HeroType.Knight) {
-//                    printWriter.print("K ");
-//                } else if (heroes.get(j).getType() == HeroType.Rogue) {
-//                    printWriter.print("R ");
-//                } else {
-//                    printWriter.print("W ");
-//                }
-//                printWriter.println(heroes.get(j).getLevel()  + " " + heroes.get(j).getExperience()
-//                        + " " + heroes.get(j).getHealth() + " " + heroes.get(j).getPositionX()
-//                        + " " + heroes.get(j).getPositionY());
-//            }
             game.round(gameInput.getMoves(), heroes, angels, printWriter);
             printWriter.println();
         }

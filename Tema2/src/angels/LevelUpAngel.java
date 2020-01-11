@@ -5,39 +5,52 @@ import player.Pyromancer;
 import player.Rogue;
 import player.Wizard;
 
-import static constants.Constants.LEVEL;
-import static constants.Constants.LEVELZERO;
-
 public class LevelUpAngel extends Angel {
 
-    public LevelUpAngel(int x, int y) {
+    public static final float K = 0.1f;
+    public static final float P = 0.2f;
+    public static final float R = 0.15f;
+    public static final float W = 0.25f;
+
+    public LevelUpAngel(final int x, final int y) {
         super(AngelType.LevelUpAngel, x, y);
     }
 
-    public void castAngel(Knight knight) {
-        int xp_level_up = LEVELZERO + knight.getLevel() * LEVEL;
+    /**
+     * @param knight
+     */
+    public void castAngel(final Knight knight) {
         knight.setExperience(knight.getXPNextLevel());
-        knight.setModifier((float) (knight.getModifier() + 0.1));
+        knight.setModifier((float) (knight.getModifier() + K));
     }
 
-    public void castAngel(Pyromancer pyromancer) {
-        int xp_level_up = LEVELZERO + pyromancer.getLevel() * LEVEL;
+    /**
+     * @param pyromancer
+     */
+    public void castAngel(final Pyromancer pyromancer) {
         pyromancer.setExperience(pyromancer.getXPNextLevel());
-        pyromancer.setModifier((float) (pyromancer.getModifier() + 0.2));
+        pyromancer.setModifier((float) (pyromancer.getModifier() + P));
     }
 
-    public void castAngel(Rogue rogue) {
-        int xp_level_up = LEVELZERO + rogue.getLevel() * LEVEL;
+    /**
+     * @param rogue
+     */
+    public void castAngel(final Rogue rogue) {
         rogue.setExperience(rogue.getXPNextLevel());
-        rogue.setModifier((float) (rogue.getModifier() + 0.15));
+        rogue.setModifier((float) (rogue.getModifier() + R));
     }
 
-    public void castAngel(Wizard wizard) {
-        int xp_level_up = LEVELZERO + wizard.getLevel() * LEVEL;
+    /**
+     * @param wizard
+     */
+    public void castAngel(final Wizard wizard) {
         wizard.setExperience(wizard.getXPNextLevel());
-        wizard.setModifier((float) (wizard.getModifier() + 0.25));
+        wizard.setModifier((float) (wizard.getModifier() + W));
     }
 
+    /**
+     * @return
+     */
     public String printAngel() {
         return "LevelUpAngel helped";
     }

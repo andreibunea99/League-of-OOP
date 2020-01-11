@@ -4,7 +4,7 @@ public final class AngelFactory {
 
     private static AngelFactory instance = null;
 
-    public Angel getAngel(AngelType name, int x, int y) {
+    public Angel getAngel(final AngelType name, final int x, final int y) {
         if (name == AngelType.DamageAngel) {
             return new DamageAngel(x, y);
         } else if (name == AngelType.DarkAngel) {

@@ -25,6 +25,13 @@ import static constants.Constants.XP_MULTIPLIER;
 
 public class Knight extends Hero {
 
+    public static final int LEFT = 3;
+    public static final int RIGHT = 2;
+    public static final int NUM = 5;
+    public static final int NR = 4;
+    public static final float M1 = 0.5f;
+    public static final float M2 = 0.2f;
+
     public Knight(final int positionX, final int getPositionY, final HeroType type, final  int id) {
         super(positionX, getPositionY, type, id);
         setInitialHealth(KHEALTH);
@@ -38,13 +45,14 @@ public class Knight extends Hero {
         if (isParalyzed() || getStandStill() > 0) {
             return;
         }
-        if ((float) getInitialHealth() / 3 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 2) {
-            setHealth(Math.round((float) (getHealth() * 4) / 5));
-            setModifier((float) (getModifier() + 0.5));
+        if ((float) getInitialHealth() / LEFT < (float) getHealth()
+                && getHealth() < (float) getInitialHealth() / RIGHT) {
+            setHealth(Math.round((float) (getHealth() * NR) / NUM));
+            setModifier(getModifier() + M1);
         }
-        if (getHealth() < Math.round((float) getInitialHealth() / 3)) {
-            setModifier((float) (getModifier() - 0.2));
-            addHealth(Math.round( (float) getHealth() / 4));
+        if (getHealth() < Math.round((float) getInitialHealth() / LEFT)) {
+            setModifier(getModifier() - M2);
+            addHealth(Math.round((float) getHealth() / NR));
         }
     }
 
@@ -203,9 +211,7 @@ public class Knight extends Hero {
         if (Math.round(hpLimit) >= wizard.getHealth()) {
             setLastDamage(Math.round(wizard.getHealth()));
             wizard.setHealth(0);
-//            System.out.println("Slam " + getLastDamage());
         } else {
-//            System.out.println("ne slam " + wizard.getHealth() + " " + hpLimit + " " + wizard.getInitialHealth() + " " +  K_HEALTH_PERCENT);
             float damage = K_BASIC_DAMAGE + K_BASIC_LEVEL * getLevel();
             damage *= terrainBonus;
             damage = Math.round(damage);
