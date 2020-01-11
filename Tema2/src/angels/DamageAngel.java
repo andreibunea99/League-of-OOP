@@ -1,9 +1,6 @@
 package angels;
 
-import player.Knight;
-import player.Pyromancer;
-import player.Rogue;
-import player.Wizard;
+import player.*;
 
 public class DamageAngel extends Angel {
 
@@ -27,4 +24,7 @@ public class DamageAngel extends Angel {
         wizard.setModifier((float) (wizard.getModifier() + 0.4));
     }
 
+    public String printAngel() {
+        return "DamageAngel helped";
+    }
 }

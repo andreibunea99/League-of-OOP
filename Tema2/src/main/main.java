@@ -1,5 +1,6 @@
 package main;
 
+import angels.Angel;
 import angels.AngelFactory;
 import play.ThePlay;
 import player.*;
@@ -21,15 +22,62 @@ public final class Main {
         AngelFactory angelFactory = AngelFactory.getInstance();
         Map map = new Map(gameInput.getN(), gameInput.getM(), gameInput.getMap());
         List<Hero> heroes = new ArrayList<>();
+        List<List<Angel>> angels = new ArrayList<>();
         for (int i = 0; i < gameInput.getP(); i++) {
-            heroes.add(factory.getHero(gameInput.getCharacters().get(i), gameInput.getOx().get(i), gameInput.getOy().get(i)));
+            heroes.add(factory.getHero(gameInput.getCharacters().get(i), gameInput.getOx().get(i),
+                    gameInput.getOy().get(i), i));
         }
-        ThePlay game = new ThePlay(gameInput.getP(), gameInput.getR(), map);
+        int currOx = 0;
+        int currOy = 0;
         for (int i = 0; i < gameInput.getR(); i++) {
-            game.round(gameInput.getMoves(), heroes);
+            List<Angel> angelList = new ArrayList<>();
+            for (int j = 0; j < gameInput.getAngels().get(i).size(); j++) {
+                angelList.add(angelFactory.getAngel(gameInput.getAngels().get(i).get(j),
+                        gameInput.getAngelsOx().get(currOx), gameInput.getAngelsOy().get(currOy)));
+                currOx++;
+                currOy++;
+            }
+            angels.add(angelList);
         }
         FileWriter fileWriter = new FileWriter(args[1]);
         PrintWriter printWriter = new PrintWriter(fileWriter);
+        ThePlay game = new ThePlay(gameInput.getP(), gameInput.getR(), map);
+        for (int i = 0; i < gameInput.getR(); i++) {
+//            for (int j = 0; j < heroes.size(); j++) {
+//                if (heroes.get(j).getHealth() <= 0) {
+//                    if (heroes.get(j).getType() == HeroType.Pyromancer) {
+//                        printWriter.print("P ");
+//                    } else if (heroes.get(j).getType() == HeroType.Knight) {
+//                        printWriter.print("K ");
+//                    } else if (heroes.get(j).getType() == HeroType.Rogue) {
+//                        printWriter.print("R ");
+//                    } else {
+//                        printWriter.print("W ");
+//                    }
+//                    if (j == heroes.size() - 1) {
+//                        printWriter.print("dead");
+//                        continue;
+//                    }
+//                    printWriter.println("dead");
+//                    continue;
+//                }
+//                if (heroes.get(j).getType() == HeroType.Pyromancer) {
+//                    printWriter.print("P ");
+//                } else if (heroes.get(j).getType() == HeroType.Knight) {
+//                    printWriter.print("K ");
+//                } else if (heroes.get(j).getType() == HeroType.Rogue) {
+//                    printWriter.print("R ");
+//                } else {
+//                    printWriter.print("W ");
+//                }
+//                printWriter.println(heroes.get(j).getLevel()  + " " + heroes.get(j).getExperience()
+//                        + " " + heroes.get(j).getHealth() + " " + heroes.get(j).getPositionX()
+//                        + " " + heroes.get(j).getPositionY());
+//            }
+            game.round(gameInput.getMoves(), heroes, angels, printWriter);
+            printWriter.println();
+        }
+        printWriter.println("~~ Results ~~");
         for (int i = 0; i < heroes.size(); i++) {
             if (heroes.get(i).getHealth() <= 0) {
                 if (heroes.get(i).getType() == HeroType.Pyromancer) {
@@ -42,7 +90,7 @@ public final class Main {
                     printWriter.print("W ");
                 }
                 if (i == heroes.size() - 1) {
-                    printWriter.print("dead");
+                    printWriter.println("dead");
                     continue;
                 }
                 printWriter.println("dead");

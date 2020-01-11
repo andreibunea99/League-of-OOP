@@ -8,7 +8,7 @@ import player.Wizard;
 public class XPAngel extends Angel {
 
     public XPAngel(int x, int y) {
-        super(AngelType.DamageAngel, x, y);
+        super(AngelType.XPAngel, x, y);
     }
 
     public void castAngel(Knight knight) {
@@ -25,5 +25,9 @@ public class XPAngel extends Angel {
 
     public void castAngel(Wizard wizard) {
         wizard.setExperience(wizard.getExperience() + 60);
+    }
+
+    public String printAngel() {
+        return "XPAngel helped";
     }
 }

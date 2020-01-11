@@ -8,7 +8,7 @@ import player.Wizard;
 public class Dracula extends Angel {
 
     public Dracula(int x, int y) {
-        super(AngelType.DamageAngel, x, y);
+        super(AngelType.Dracula, x, y);
     }
 
     public void castAngel(Knight knight) {
@@ -29,5 +29,9 @@ public class Dracula extends Angel {
     public void castAngel(Wizard wizard) {
         wizard.setModifier((float) (wizard.getModifier() - 0.4));
         wizard.addHealth(-20);
+    }
+
+    public String printAngel() {
+        return "Dracula hit";
     }
 }

@@ -1,5 +1,6 @@
 package player;
 
+import angels.Angel;
 import main.Map;
 
 import static constants.Constants.HUNDREAD;
@@ -24,8 +25,8 @@ import static constants.Constants.XP_MULTIPLIER;
 
 public class Knight extends Hero {
 
-    public Knight(final int positionX, final int getPositionY, final HeroType type) {
-        super(positionX, getPositionY, type);
+    public Knight(final int positionX, final int getPositionY, final HeroType type, final  int id) {
+        super(positionX, getPositionY, type, id);
         setInitialHealth(KHEALTH);
         setHealthPerLevel(KLEVEL);
     }
@@ -34,6 +35,9 @@ public class Knight extends Hero {
      *
      */
     public void checkStrategy() {
+        if (isParalyzed() || getStandStill() > 0) {
+            return;
+        }
         if ((float) getInitialHealth() / 3 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 2) {
             setHealth(Math.round((float) (getHealth() * 4) / 5));
             setModifier((float) (getModifier() + 0.5));
@@ -62,8 +66,9 @@ public class Knight extends Hero {
         } else {
             float damage = K_BASIC_DAMAGE + K_BASIC_LEVEL * getLevel();
             damage *= terrainBonus;
+            damage = Math.round(damage);
             setLastDamage(Math.round(damage));
-            damage *= KPBASIC * getModifier();
+            damage *= (KPBASIC + getModifier() - 1);
             pyromancer.addHealth(-Math.round(damage));
         }
     }
@@ -77,11 +82,12 @@ public class Knight extends Hero {
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
-        pyromancer.setStandStill(true);
+        pyromancer.setStandStill(2);
         float damage = K_SPECIAL_DAMAGE + K_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= KPSPECIAL * getModifier();
+        damage *= (KPSPECIAL + getModifier() - 1);
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -107,8 +113,9 @@ public class Knight extends Hero {
         } else {
             float damage = K_BASIC_DAMAGE + K_BASIC_LEVEL * getLevel();
             damage *= terrainBonus;
+            damage = Math.round(damage);
             setLastDamage(Math.round(damage));
-            damage *= KRBASIC * getModifier();
+            damage *= (KRBASIC + getModifier() - 1);
             rogue.addHealth(-Math.round(damage));
         }
     }
@@ -122,11 +129,12 @@ public class Knight extends Hero {
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
-        rogue.setStandStill(true);
+        rogue.setStandStill(2);
         float damage = K_SPECIAL_DAMAGE + K_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= KRSPECIAL * getModifier();
+        damage *= (KRSPECIAL + getModifier() - 1);
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -152,8 +160,8 @@ public class Knight extends Hero {
         } else {
             float damage = K_BASIC_DAMAGE + K_BASIC_LEVEL * getLevel();
             damage *= terrainBonus;
+            damage = Math.round(damage);
             setLastDamage(Math.round(damage));
-            damage *= getModifier();
             knight.addHealth(-Math.round(damage));
         }
     }
@@ -167,11 +175,12 @@ public class Knight extends Hero {
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
-        knight.setStandStill(true);
+        knight.setStandStill(2);
         float damage = K_SPECIAL_DAMAGE + K_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= KKSPECIAL * getModifier();
+        damage *= (KKSPECIAL + getModifier() - 1);
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -194,11 +203,14 @@ public class Knight extends Hero {
         if (Math.round(hpLimit) >= wizard.getHealth()) {
             setLastDamage(Math.round(wizard.getHealth()));
             wizard.setHealth(0);
+//            System.out.println("Slam " + getLastDamage());
         } else {
+//            System.out.println("ne slam " + wizard.getHealth() + " " + hpLimit + " " + wizard.getInitialHealth() + " " +  K_HEALTH_PERCENT);
             float damage = K_BASIC_DAMAGE + K_BASIC_LEVEL * getLevel();
             damage *= terrainBonus;
+            damage = Math.round(damage);
             setLastDamage(Math.round(damage));
-            damage *= KWBASIC * getModifier();
+            damage *= (KWBASIC + getModifier() - 1);
             wizard.addHealth(-Math.round(damage));
         }
     }
@@ -212,11 +224,12 @@ public class Knight extends Hero {
         if (map.getParcel(getPositionX(), getPositionY()) == 'L') {
             terrainBonus = KBONUS;
         }
-        wizard.setStandStill(true);
+        wizard.setStandStill(2);
         float damage = K_SPECIAL_DAMAGE + K_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= KWSPECIAL * getModifier();
+        damage *= (KWSPECIAL + getModifier() - 1);
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -231,5 +244,12 @@ public class Knight extends Hero {
     public void accept(final Hero hero, final Map map) {
         hero.basicAttack(this, map);
         hero.specialAttack(this, map);
+    }
+
+    /**
+     * @param angel
+     */
+    public void accept(final Angel angel) {
+        angel.castAngel(this);
     }
 }

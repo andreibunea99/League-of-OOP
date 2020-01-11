@@ -1,5 +1,6 @@
 package player;
 
+import angels.Angel;
 import main.Map;
 
 import static constants.Constants.PBONUS;
@@ -24,8 +25,8 @@ import static constants.Constants.XP_MULTIPLIER;
 
 public class Pyromancer extends Hero {
 
-    public Pyromancer(final int positionX, final int getPositionY, final HeroType type) {
-        super(positionX, getPositionY, type);
+    public Pyromancer(final int positionX, final int getPositionY, final HeroType type, final int id) {
+        super(positionX, getPositionY, type, id);
         setInitialHealth(PHEALTH);
         setHealthPerLevel(PLEVEL);
     }
@@ -34,6 +35,9 @@ public class Pyromancer extends Hero {
      *
      */
     public void checkStrategy() {
+        if (isParalyzed() || getStandStill() > 0) {
+            return;
+        }
         if ((float) getInitialHealth() / 4 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 3) {
             setHealth(Math.round((float) (getHealth() * 3) / 4));
             setModifier((float) (getModifier() + 0.7));
@@ -55,8 +59,9 @@ public class Pyromancer extends Hero {
         }
         float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage));
-        damage *= PKBASIC * getModifier();
+        damage *= (PKBASIC + getModifier() - 1);
         knight.addHealth(-Math.round(damage));
     }
 
@@ -71,11 +76,13 @@ public class Pyromancer extends Hero {
         }
         float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= PKSPECIAL * getModifier();
+        damage *= (PKSPECIAL + getModifier() - 1);
         float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
-        damageRound *= PKSPECIAL * getModifier();
+        damageRound = Math.round(damageRound);
+        damageRound *= (PKSPECIAL + getModifier() - 1);
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -96,8 +103,9 @@ public class Pyromancer extends Hero {
         }
         float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage));
-        damage *= PRBASIC * getModifier();
+        damage *= (PRBASIC + getModifier() - 1);
         rogue.addHealth(-Math.round(damage));
     }
 
@@ -112,11 +120,13 @@ public class Pyromancer extends Hero {
         }
         float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= PRSPECIAL * getModifier();
+        damage *= (PRSPECIAL + getModifier() - 1);
         float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
-        damageRound *= PRSPECIAL * getModifier();
+        damageRound = Math.round(damageRound);
+        damageRound *= (PRSPECIAL + getModifier() - 1);
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -137,8 +147,9 @@ public class Pyromancer extends Hero {
         }
         float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage));
-        damage *= PWBASIC * getModifier();
+        damage *= (PWBASIC + getModifier() - 1);
         wizard.addHealth(-Math.round(damage));
     }
 
@@ -153,11 +164,13 @@ public class Pyromancer extends Hero {
         }
         float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= PWSPECIAL * getModifier();
+        damage *= (PWSPECIAL + getModifier() - 1);
         float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
-        damageRound *= PWSPECIAL * getModifier();
+        damageRound = Math.round(damageRound);
+        damageRound *= (PWSPECIAL + getModifier() - 1);
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -178,8 +191,9 @@ public class Pyromancer extends Hero {
         }
         float damage = P_BASIC_DAMAGE + P_BASIC_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage));
-        damage *= PPBASIC * getModifier();
+        damage *= (PPBASIC + getModifier() - 1);
         pyromancer.addHealth(-Math.round(damage));
     }
 
@@ -194,11 +208,13 @@ public class Pyromancer extends Hero {
         }
         float damage = P_SPECIAL_DAMAGE + P_SPECIAL_LEVEL * getLevel();
         damage *= terrainBonus;
+        damage = Math.round(damage);
         setLastDamage(Math.round(damage) + getLastDamage());
-        damage *= PPSPECIAL * getModifier();
+        damage *= (PPSPECIAL + getModifier() - 1);
         float damageRound = P_ROUND_DAMAGE + P_ROUND_LEVEL * getLevel();
         damageRound *= terrainBonus;
-        damageRound *= PPSPECIAL * getModifier();
+        damageRound = Math.round(damageRound);
+        damageRound *= (PPSPECIAL + getModifier() - 1);
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
             setExperience(getExperience() + Math.max(0, XP_LIMIT - (getLevel()
@@ -217,4 +233,10 @@ public class Pyromancer extends Hero {
         hero.specialAttack(this, map);
     }
 
+    /**
+     * @param angel
+     */
+    public void accept(final Angel angel) {
+        angel.castAngel(this);
+    }
 }

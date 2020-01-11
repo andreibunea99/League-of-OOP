@@ -1,5 +1,6 @@
 package player;
 
+import angels.Angel;
 import main.Map;
 
 import static constants.Constants.HUNDREAD;
@@ -24,8 +25,8 @@ import static constants.Constants.XP_MULTIPLIER;
 
 public class Wizard extends Hero {
 
-    public Wizard(final int positionX, final int getPositionY, final HeroType type) {
-        super(positionX, getPositionY, type);
+    public Wizard(final int positionX, final int getPositionY, final HeroType type, final int id) {
+        super(positionX, getPositionY, type, id);
         setInitialHealth(WHEALTH);
         setHealthPerLevel(WLEVEL);
     }
@@ -34,6 +35,9 @@ public class Wizard extends Hero {
      *
      */
     public void checkStrategy() {
+        if (isParalyzed() || getStandStill() > 0) {
+            return;
+        }
         if ((float) getInitialHealth() / 4 < (float) getHealth() && getHealth() < (float) getInitialHealth() / 2) {
             setHealth(Math.round((float) (getHealth() * 9) / 10));
             setModifier((float) (getModifier() + 0.6));
@@ -57,7 +61,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = perCent * Math.min(W_BASIC_MULTIPLIER * pyromancer.getInitialHealth(),
                 (float) (pyromancer.getHealth()));
-        damage *= WPBASIC * getModifier();
+        damage *= (WPBASIC + getModifier() - 1);
         damage *= terrainBonus;
         pyromancer.addHealth(-Math.round(damage));
     }
@@ -75,7 +79,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = Math.min(W_SPECIAL_MULTIPLIER, perCent);
         damage *= pyromancer.getLastDamage();
-        damage *= WPSPECIAL * getModifier();
+        damage *= (WPSPECIAL + getModifier() - 1);
         damage *= terrainBonus;
         pyromancer.addHealth(-Math.round(damage));
         if (pyromancer.getHealth() <= 0) {
@@ -97,7 +101,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = perCent * Math.min(W_BASIC_MULTIPLIER * knight.getInitialHealth(),
                 (float) (knight.getHealth()));
-        damage *= WKBASIC * getModifier();
+        damage *= (WKBASIC + getModifier() - 1);
         damage *= terrainBonus;
         knight.addHealth(-Math.round(damage));
     }
@@ -115,7 +119,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = Math.min(W_SPECIAL_MULTIPLIER, perCent);
         damage *= knight.getLastDamage();
-        damage *= WKSPECIAL * getModifier();
+        damage *= (WKSPECIAL + getModifier() - 1);
         damage *= terrainBonus;
         knight.addHealth(-Math.round(damage));
         if (knight.getHealth() <= 0) {
@@ -137,7 +141,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = perCent * Math.min(W_BASIC_MULTIPLIER * rogue.getInitialHealth(),
                 (float) (rogue.getHealth()));
-        damage *= WRBASIC * getModifier();
+        damage *= (WRBASIC + getModifier() - 1);
         damage *= terrainBonus;
         rogue.addHealth(-Math.round(damage));
     }
@@ -155,7 +159,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = Math.min(W_SPECIAL_MULTIPLIER, perCent);
         damage *= rogue.getLastDamage();
-        damage *= WRSPECIAL * getModifier();
+        damage *= (WRSPECIAL + getModifier() - 1);
         damage *= terrainBonus;
         rogue.addHealth(-Math.round(damage));
         if (rogue.getHealth() <= 0) {
@@ -177,7 +181,7 @@ public class Wizard extends Hero {
         perCent /= HUNDREAD;
         float damage = perCent * Math.min(W_BASIC_MULTIPLIER * wizard.getInitialHealth(),
                 (float) (wizard.getHealth()));
-        damage *= WWBASIC * getModifier();
+        damage *= (WWBASIC + getModifier() - 1);
         damage *= terrainBonus;
         wizard.addHealth(-Math.round(damage));
         if (wizard.getHealth() <= 0) {
@@ -200,6 +204,16 @@ public class Wizard extends Hero {
      */
     public void accept(final Hero hero, final Map map) {
         hero.basicAttack(this, map);
+//        System.out.println("Mai am: " + getHealth());
         hero.specialAttack(this, map);
+//        System.out.println("Mai am: " + getHealth());
+//        System.out.println();
+    }
+
+    /**
+     * @param angel
+     */
+    public void accept(final Angel angel) {
+        angel.castAngel(this);
     }
 }

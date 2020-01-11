@@ -1,16 +1,13 @@
 package angels;
 
-import player.Knight;
-import player.Pyromancer;
-import player.Rogue;
-import player.Wizard;
+import player.*;
 
 public abstract class Angel {
     private int x;
     private int y;
     private AngelType type;
 
-    public Angel( AngelType type, int x, int y) {
+    public Angel (AngelType type, int x, int y) {
         this.x = x;
         this.y = y;
         this.type = type;
@@ -84,5 +81,9 @@ public abstract class Angel {
      */
     public void castAngel(Wizard wizard) {
 
+    }
+
+    public String printAngel() {
+        return null;
     }
 }

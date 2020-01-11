@@ -1,5 +1,6 @@
 package player;
 
+import angels.Angel;
 import main.Map;
 
 import static constants.Constants.LEVEL;
@@ -16,19 +17,23 @@ public abstract class Hero {
     private int timeOfHurt;
     private int healthPerLevel;
     private int initialHealth;
-    private boolean standStill;
+    private int standStill;
     private int lastDamage;
     private boolean paralyzed;
     private int timeOfParalyze;
     private HeroType type;
+    private int id;
+    private int XPNextLevel;
 
-    public Hero(final int positionX, final int getPositionY, final HeroType type) {
+    public Hero(final int positionX, final int getPositionY, final HeroType type, final int id) {
         this.positionX = positionX;
         this.positionY = getPositionY;
         this.type = type;
+        this.id = id;
         level = 0;
         lastDamage = 0;
         modifier = 1;
+        XPNextLevel = 250;
     }
 
     /**
@@ -49,7 +54,7 @@ public abstract class Hero {
     /**
      * @return
      */
-    public boolean isStandStill() {
+    public int getStandStill() {
         return standStill;
     }
 
@@ -70,7 +75,7 @@ public abstract class Hero {
     /**
      * @param standStill
      */
-    public void setStandStill(final boolean standStill) {
+    public void setStandStill(final int standStill) {
         this.standStill = standStill;
         setTimeOfHurt(0);
         setHurt(0);
@@ -116,10 +121,20 @@ public abstract class Hero {
     }
 
     /**
+     * @return
+     */
+    public int getXPNextLevel() {
+        return XPNextLevel;
+    }
+
+    /**
      *
      */
     public void checkWound() {
         timeOfParalyze--;
+        if (standStill > 0) {
+            standStill--;
+        }
         if (hurt != 0) {
             health -= hurt;
             timeOfHurt--;
@@ -239,6 +254,13 @@ public abstract class Hero {
     }
 
     /**
+     * @param angel
+     */
+    public void accept(final Angel angel) {
+
+    }
+
+    /**
      * @return
      */
     public boolean isParalyzed() {
@@ -303,17 +325,18 @@ public abstract class Hero {
      */
     protected abstract void specialAttack(Wizard wizard, Map map);
 
+    public int getId() {
+        return id;
+    }
+
     /**
      *
      */
     public void finalRound() {
-        if (health <= 0) {
-            return;
-        }
-        int levelUp = (experience - LEVELZERO) / LEVEL + 1;
-        if (levelUp > level) {
-            level = levelUp;
-            initialHealth += levelUp * healthPerLevel;
+        while (experience >= XPNextLevel) {
+            XPNextLevel += 50;
+            level++;
+            initialHealth += healthPerLevel;
             health = initialHealth;
         }
     }

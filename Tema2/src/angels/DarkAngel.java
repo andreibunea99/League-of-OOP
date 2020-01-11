@@ -8,7 +8,7 @@ import player.Wizard;
 public class DarkAngel extends Angel {
 
     public DarkAngel(int x, int y) {
-        super(AngelType.DamageAngel, x, y);
+        super(AngelType.DarkAngel, x, y);
     }
 
     public void castAngel(Knight knight) {
@@ -25,5 +25,9 @@ public class DarkAngel extends Angel {
 
     public void castAngel(Wizard wizard) {
         wizard.addHealth(-20);
+    }
+
+    public String printAngel() {
+        return "DarkAngel hit";
     }
 }
