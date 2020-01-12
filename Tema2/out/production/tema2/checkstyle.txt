@@ -1,12 +1,7 @@
 Starting audit...
 [ERROR] /mnt/c/workspace/tema2/proiect/Tema2/src/constants/Constants.java:3:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
 [ERROR] /mnt/c/workspace/tema2/proiect/Tema2/src/main/Main.java:18:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
-[ERROR] /mnt/c/workspace/tema2/proiect/Tema2/src/play/ThePlay.java:29: Line is longer than 100 characters (found 113). [LineLength]
 [ERROR] /mnt/c/workspace/tema2/proiect/Tema2/src/player/Hero.java:328:5: Class 'Hero' looks like designed for extension (can be subclassed), but the method 'getId' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'Hero' final or making the method 'getId' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
-[ERROR] /mnt/c/workspace/tema2/proiect/Tema2/src/player/HeroFactory.java:0: File does not end with a newline. [NewlineAtEndOfFile]
-[ERROR] /mnt/c/workspace/tema2/proiect/Tema2/src/player/Knight.java:48: Line is longer than 100 characters (found 122). [LineLength]
 [ERROR] /mnt/c/workspace/tema2/proiect/Tema2/src/reading/GameInput.java:23:12: More than 7 parameters (found 10). [ParameterNumber]
-[ERROR] /mnt/c/workspace/tema2/proiect/Tema2/src/reading/InputReader.java:3:8: Unused import - angels.Angel. [UnusedImports]
-[ERROR] /mnt/c/workspace/tema2/proiect/Tema2/src/reading/InputReader.java:81: Line is longer than 100 characters (found 101). [LineLength]
 Audit done.
-Checkstyle ends with 9 errors.
+Checkstyle ends with 4 errors.

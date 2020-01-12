@@ -1,11 +1,21 @@
 package main;
 
 public class Map {
-    private final int n;
-    private final int m;
-    private final char[][] map;
+    private int n;
+    private int m;
+    private char[][] map;
+    private static Map instance = null;
 
-    public Map(final int nMap, final int mMap, final char[][] a) {
+    public Map() {
+
+    }
+
+    /**
+     * @param nMap
+     * @param mMap
+     * @param a
+     */
+    public void buildMap(final int nMap, final int mMap, final char[][] a) {
         n = nMap;
         m = mMap;
         map = a;
@@ -18,5 +28,12 @@ public class Map {
      */
     public char getParcel(final int i, final int j) {
         return map[i][j];
+    }
+
+    public static Map getInstance() {
+        if (instance == null) {
+            instance = new Map();
+        }
+        return instance;
     }
 }

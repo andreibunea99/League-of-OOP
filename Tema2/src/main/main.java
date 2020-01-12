@@ -22,7 +22,8 @@ public final class Main {
         GameInput gameInput = gameInputLoader.load();
         HeroFactory factory = HeroFactory.getInstance();
         AngelFactory angelFactory = AngelFactory.getInstance();
-        Map map = new Map(gameInput.getN(), gameInput.getM(), gameInput.getMap());
+        Map map = Map.getInstance();
+        map.buildMap(gameInput.getN(), gameInput.getM(), gameInput.getMap());
         List<Hero> heroes = new ArrayList<>();
         List<List<Angel>> angels = new ArrayList<>();
         for (int i = 0; i < gameInput.getP(); i++) {
